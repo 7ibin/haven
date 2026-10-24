@@ -1,0 +1,58 @@
+{
+  "$description": "Haven design tokens — import into Figma via Tokens Studio plugin (Variables)",
+  "color": {
+    "primary": { "value": "#0d4f8b", "type": "color" },
+    "primary-light": { "value": "#1565b8", "type": "color" },
+    "primary-muted": { "value": "#e8f2fc", "type": "color" },
+    "accent": { "value": "#e85d04", "type": "color" },
+    "accent-hover": { "value": "#c44d03", "type": "color" },
+    "cream": { "value": "#f4f6f9", "type": "color" },
+    "white": { "value": "#ffffff", "type": "color" },
+    "ink": { "value": "#1a1a2e", "type": "color" },
+    "ink-muted": { "value": "#5c6370", "type": "color" },
+    "border": { "value": "#dde3ec", "type": "color" },
+    "success": { "value": "#0d7a4d", "type": "color" },
+    "warning": { "value": "#b8860b", "type": "color" },
+    "error": { "value": "#d32f2f", "type": "color" },
+    "hero-start": { "value": "#062d52", "type": "color" },
+    "hero-mid": { "value": "#0d4f8b", "type": "color" },
+    "hero-end": { "value": "#1878be", "type": "color" },
+    "page-bg": { "value": "#eef2f7", "type": "color" }
+  },
+  "fontFamily": {
+    "sans": { "value": "DM Sans", "type": "fontFamilies" }
+  },
+  "fontSize": {
+    "xs": { "value": "10", "type": "fontSizes" },
+    "sm": { "value": "12", "type": "fontSizes" },
+    "base": { "value": "14", "type": "fontSizes" },
+    "md": { "value": "16", "type": "fontSizes" },
+    "lg": { "value": "18", "type": "fontSizes" },
+    "xl": { "value": "24", "type": "fontSizes" },
+    "2xl": { "value": "28", "type": "fontSizes" }
+  },
+  "fontWeight": {
+    "medium": { "value": "500", "type": "fontWeights" },
+    "semibold": { "value": "600", "type": "fontWeights" },
+    "bold": { "value": "700", "type": "fontWeights" },
+    "extrabold": { "value": "800", "type": "fontWeights" }
+  },
+  "borderRadius": {
+    "default": { "value": "10", "type": "borderRadius" },
+    "lg": { "value": "14", "type": "borderRadius" },
+    "pill": { "value": "9999", "type": "borderRadius" }
+  },
+  "spacing": {
+    "xs": { "value": "4", "type": "spacing" },
+    "sm": { "value": "8", "type": "spacing" },
+    "md": { "value": "12", "type": "spacing" },
+    "base": { "value": "16", "type": "spacing" },
+    "lg": { "value": "20", "type": "spacing" },
+    "xl": { "value": "24", "type": "spacing" }
+  },
+  "sizing": {
+    "header-height": { "value": "52", "type": "sizing" },
+    "nav-height": { "value": "60", "type": "sizing" },
+    "app-max-width": { "value": "480", "type": "sizing" }
+  }
+}

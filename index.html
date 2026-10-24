@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function () {
+      if (/[?&]safe=1(?:&|$)/.test(location.search)) {
+        document.documentElement.classList.add('safe-area-preview');
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a212c" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Haven">
+  <meta name="description" content="Haven — Compare plans and buy Health, Motor, Term Life and Home insurance in India. Plain-language guidance and expert support.">
+  <title>Haven — Compare & Buy Insurance Online</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/haven-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" sizes="180x180">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Haven">
+  <meta property="og:title" content="Haven — Compare & Buy Insurance Online">
+  <meta property="og:description" content="Compare plans for Health, Motor, Term Life and Home insurance. Plain-language guidance and expert help.">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:image" content="icons/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Haven — Compare & Buy Insurance Online">
+  <meta name="twitter:description" content="Compare plans for Health, Motor, Term Life and Home insurance in India.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <!-- Material Symbols: required by icons.js (icon() renders named glyphs via this font) -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400..500,0..1,0&display=block&icon_names=account_balance,account_balance_wallet,arrow_back,arrow_forward,article,assignment,assignment_turned_in,auto_awesome,autorenew,bolt,call,campaign,car_repair,chat_bubble,check,chevron_right,compare_arrows,credit_card,currency_rupee,description,directions_car,elderly,emoji_events,event,expand_more,explore,family_restroom,folder_open,gavel,health_and_safety,help,home,info,local_hospital,location_on,lock,logout,mail,menu_book,notifications,person,search,send,settings,shield_with_heart,smartphone,support_agent,swap_horiz,sync,two_wheeler,verified_user" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="splash" class="launch" aria-live="polite" aria-busy="false" data-i18n-aria="a11y.splash" aria-label="Welcome to Haven" hidden>
+    <div class="launch__glow" aria-hidden="true"></div>
+    <div class="launch__brand">
+      <div class="launch__logo" aria-hidden="true">
+        <span class="launch__logo-word"><span class="launch__logo-thin">Ha</span><span class="launch__logo-thick">ven</span></span>
+      </div>
+      <p class="launch__tagline"><span data-i18n="splash.tagline">Smart cover for every family</span></p>
+    </div>
+    <div class="launch__stage" aria-hidden="true">
+      <div class="launch__grid">
+        <div class="launch__card" style="--i:0">
+          <div class="launch__icon launch__icon--health" aria-hidden="true"></div>
+          <span class="launch__label" data-i18n="product.health">Health</span>
+        </div>
+        <div class="launch__card" style="--i:1">
+          <div class="launch__icon launch__icon--motor" aria-hidden="true"></div>
+          <span class="launch__label" data-i18n="product.motor">Motor</span>
+        </div>
+        <div class="launch__card" style="--i:2">
+          <div class="launch__icon launch__icon--term" aria-hidden="true"></div>
+          <span class="launch__label" data-i18n="product.term">Term Life</span>
+        </div>
+        <div class="launch__card" style="--i:3">
+          <div class="launch__icon launch__icon--home" aria-hidden="true"></div>
+          <span class="launch__label" data-i18n="product.home">Home</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="skip-link" href="#mainContent" data-i18n="a11y.skip">Skip to main content</a>
+  <div id="routeAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <div id="compareLive" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <div id="app">
+    <header class="site-header" role="banner">
+      <div class="site-header__top">
+        <button type="button" class="site-header__brand" data-action="set-view" data-view="home" data-i18n-aria="a11y.home" aria-label="Haven home">
+          <span class="site-header__logo" aria-hidden="true">Haven</span>
+        </button>
+        <div class="site-header__actions">
+          <a class="header-chip header-chip--call" id="callExpert" href="tel:">
+            <span class="header-chip__call-text">
+              <span class="header-chip__call-label" data-i18n="header.expert">Expert</span>
+              <span class="header-chip__call-num" id="callExpertNum"></span>
+            </span>
+          </a>
+          <button class="header-chip header-chip--account" id="authBtn" type="button">
+            <span class="header-chip__avatar" aria-hidden="true"></span>
+            <span class="header-chip__name" data-i18n="auth.login">Login</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="mainContent" class="main" tabindex="-1">
+      <noscript>
+        <p>Haven needs JavaScript to compare and buy insurance. Enable JavaScript, then reload this page.</p>
+      </noscript>
+    </main>
+
+    <div class="compare-bar" id="compareBar" hidden>
+      <div class="compare-bar__info">
+        <span id="compareCount" data-i18n="compare.countZero">0 plans selected</span>
+        <span id="compareLimitMsg" class="compare-bar__limit" hidden></span>
+      </div>
+      <button class="btn btn--primary btn--sm" id="compareBtn" type="button" data-i18n="compare.now">Compare now</button>
+    </div>
+
+    <button class="ai-fab" id="aiFab" data-i18n-aria="a11y.aiOpen" aria-label="Open AI assistant" title="Ask Haven AI"></button>
+
+    <div class="ai-panel" id="aiPanel" role="dialog" aria-modal="true" aria-labelledby="aiPanelTitle" aria-hidden="true">
+      <div class="ai-panel__header">
+        <div>
+          <div class="ai-panel__title" id="aiPanelTitle" data-i18n="ai.title">Ask Haven</div>
+          <div class="ai-panel__subtitle" data-i18n="ai.subtitle">Find the right policy for you</div>
+        </div>
+        <button class="ai-panel__close" id="aiClose" data-i18n-aria="a11y.close" aria-label="Close" type="button">×</button>
+      </div>
+      <div class="ai-panel__body">
+        <div class="ai-panel__messages" id="aiMessages" aria-live="polite" aria-relevant="additions text"></div>
+      </div>
+      <div class="ai-panel__footer">
+        <div class="ai-panel__topics" id="aiSuggestionsWrap">
+          <div class="quote-choice-card ai-panel__choice-card">
+            <p class="quote-choice-card__title" id="aiSuggestionsLabel" data-i18n="ai.quickTopics" hidden>Quick topics</p>
+            <div class="chip-group chip-group--choice chip-group--wrap ai-panel__chips" id="aiSuggestions" role="group" aria-labelledby="aiSuggestionsLabel"></div>
+          </div>
+        </div>
+        <div class="ai-panel__composer">
+          <form class="ai-panel__input" id="aiForm">
+            <input type="text" id="aiInput" placeholder="Compare plans, ask about coverage..." autocomplete="off" data-i18n-placeholder="ai.placeholder">
+            <button type="submit" class="btn btn--primary ai-panel__send" id="aiSend" data-i18n-aria="a11y.send" aria-label="Send"></button>
+          </form>
+          <button type="button" class="btn btn--secondary btn--block btn--sm" id="aiExpertHandoff" data-action="open-expert-from-ai" data-i18n="ai.expertHandoff">Talk to an expert</button>
+          <p class="ai-panel__disclaimer" id="aiDisclaimer" data-i18n="ai.disclaimer">General guidance only — confirm details in your policy document.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ai-overlay" id="aiOverlay"></div>
+
+    <div class="modal" id="expertModal" role="dialog" aria-modal="true" aria-labelledby="expertModalTitle" aria-hidden="true">
+      <div class="modal__content expert-modal">
+        <button class="modal__close" id="expertClose" type="button" data-i18n-aria="expert.closeAria">×</button>
+        <div id="expertFormPanel">
+          <h2 id="expertModalTitle" data-i18n="expert.title">Talk to an insurance expert</h2>
+          <p class="subtitle" data-i18n="expert.subtitle">Free, unbiased advice — no spam calls</p>
+          <form id="expertForm" class="expert-form" novalidate>
+            <div class="form-group">
+              <label for="expertName" data-i18n="expert.nameLabel">Your name</label>
+              <input type="text" id="expertName" name="name" autocomplete="name" data-i18n-placeholder="expert.namePlaceholder" placeholder="Your full name" aria-describedby="expertNameError">
+              <p class="field-error" id="expertNameError" role="alert" hidden></p>
+            </div>
+            <div class="form-group">
+              <label for="expertPhone" data-i18n="expert.phoneLabel">Mobile number</label>
+              <input type="tel" id="expertPhone" name="phone" inputmode="numeric" autocomplete="tel-national" data-i18n-placeholder="expert.phonePlaceholder" placeholder="10-digit mobile" aria-describedby="expertPhoneError">
+              <p class="field-error" id="expertPhoneError" role="alert" hidden></p>
+            </div>
+            <div class="form-group">
+              <label for="expertProduct" data-i18n="expert.productLabel">Looking for</label>
+              <select id="expertProduct" name="product">
+                <option value="health" data-i18n="expert.productHealth">Health insurance</option>
+                <option value="motor" data-i18n="expert.productMotor">Motor insurance</option>
+                <option value="term" data-i18n="expert.productTerm">Term Life insurance</option>
+                <option value="home" data-i18n="expert.productHome">Home insurance</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="expertTime" data-i18n="expert.timeLabel">Preferred call time</label>
+              <select id="expertTime" name="time">
+                <option value="now" data-i18n="expert.timeNow">Now</option>
+                <option value="morning" data-i18n="expert.timeMorning">Morning (9am–12pm)</option>
+                <option value="afternoon" data-i18n="expert.timeAfternoon">Afternoon (12pm–5pm)</option>
+                <option value="evening" data-i18n="expert.timeEvening">Evening (5pm–8pm)</option>
+              </select>
+            </div>
+            <div class="form-group expert-consent-wrap">
+              <label class="expert-consent">
+                <input type="checkbox" id="expertConsent" name="consent" aria-describedby="expertConsentError">
+                <span data-i18n="expert.consent">I agree to be called once on this number by a Haven expert. No spam, no resale of my number.</span>
+              </label>
+              <p class="field-error" id="expertConsentError" role="alert" hidden></p>
+            </div>
+            <button class="btn btn--primary btn--block" id="expertSubmit" type="submit" data-i18n="expert.cta">Get free callback in 5 min</button>
+          </form>
+        </div>
+        <div id="expertSuccessPanel" class="expert-success" hidden>
+          <div class="expert-success__badge" aria-hidden="true">✓</div>
+          <h2 id="expertSuccessTitle" class="expert-success__title" tabindex="-1" data-i18n="expert.successTitle">Request received</h2>
+          <p id="expertSuccessSub" class="expert-success__sub">We'll call within 5 minutes</p>
+          <button type="button" class="btn btn--primary btn--block" id="expertSuccessClose" data-i18n="expert.close">Close</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="expertOverlay"></div>
+
+    <nav class="bottom-nav" id="bottomNav" data-i18n-aria="a11y.nav" aria-label="Main navigation">
+      <button type="button" class="bottom-nav__item active" data-view="home" aria-current="page">
+        <span class="bottom-nav__icon-slot" aria-hidden="true"></span>
+        <span data-i18n="nav.home">Home</span>
+      </button>
+      <button type="button" class="bottom-nav__item" data-view="explore">
+        <span class="bottom-nav__icon-slot" aria-hidden="true"></span>
+        <span data-i18n="nav.explore">Explore</span>
+      </button>
+      <button type="button" class="bottom-nav__item" data-view="policies">
+        <span class="bottom-nav__icon-slot" aria-hidden="true"></span>
+        <span data-i18n="nav.policies">My policies</span>
+      </button>
+      <button type="button" class="bottom-nav__item" data-view="claims">
+        <span class="bottom-nav__icon-slot" aria-hidden="true"></span>
+        <span data-i18n="nav.claims">Claims</span>
+      </button>
+      <button type="button" class="bottom-nav__item" data-view="help">
+        <span class="bottom-nav__icon-slot" aria-hidden="true"></span>
+        <span data-i18n="nav.help">Help</span>
+      </button>
+    </nav>
+  </div>
+  <script src="icons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

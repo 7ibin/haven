@@ -36,7 +36,7 @@ function quoteContinueBtn(label, sub = '', action = 'wizard-next', extraAttrs = 
 
 const i18n = {
   en: {
-    'nav.home': 'Home', 'nav.explore': 'Explore', 'nav.policies': 'My policies', 'nav.claims': 'Claims', 'nav.help': 'Help',
+    'nav.home': 'Home', 'nav.explore': 'Explore', 'nav.policies': 'Policies', 'nav.claims': 'Claims', 'nav.help': 'Help',
     'ai.title': 'Ask Haven',
     'ai.subtitle': 'Find the right policy for you',
     'ai.placeholder': 'e.g. health insurance for family...',
@@ -270,7 +270,7 @@ let appSettings = { ...DEFAULT_APP_SETTINGS };
 let compareList = [];
 let compareHideEqualRows = false;
 
-const COMPARE_PRODUCTS = ['health', 'term', 'home'];
+const COMPARE_PRODUCTS = ['health', 'motor', 'term', 'home'];
 
 function plansForCompareProduct(product) {
   return PLAN_DATA[product] || healthPlans;
@@ -297,6 +297,17 @@ function resolveComparePlans(product) {
 }
 
 function compareRowsForProduct(product) {
+  if (product === 'motor') {
+    return [
+      { label: t('compare.monthly'), key: (p) => formatPremium(yearlyToMonthly(motorPremiumForPlan(p))) },
+      { label: 'Premium/yr', key: (p) => formatPremium(motorPremiumForPlan(p)) },
+      { label: 'IDV', key: (p) => formatPremium(p.idv) },
+      { label: 'Your NCB', key: () => `${motorNcbPercent()}%` },
+      { label: 'Zero depreciation', key: (p) => (p.zeroDep ? '✓' : '✗') },
+      { label: 'Claim settlement', key: (p) => `${p.claims}%` },
+      { label: 'Rating', key: (p) => (p.rating ? `★ ${p.rating}` : '—') },
+    ];
+  }
   if (product === 'term') {
     return [
       { label: t('compare.monthly'), key: (p) => formatPremium(yearlyToMonthly(quotePremiumForPlan(p, 'term'))) },
@@ -351,7 +362,7 @@ let selectedPlanId = null;
 let activeProduct = 'health';
 let healthAddons = { restoration: true, opd: false, maternity: false, critical: false };
 let motorAddons = { zeroDep: false, rsa: true, personalAccident: false };
-let checkoutForm = { nominee: '', pan: '', declaration: false };
+let checkoutForm = { proposerName: '', nominee: '', nomineeDob: '', pan: '', declaration: false };
 let checkoutPhase = 'review';
 let paymentForm = { upiId: '', cardNumber: '', cardExpiry: '', cardCvv: '', bank: '' };
 let lastCheckout = { product: '', planId: '', premium: 0, addonsSummary: '', policyNo: '' };
@@ -588,6 +599,8 @@ const PLAN_DATA = {
   health: healthPlans, motor: motorPlans, term: termPlans, home: homePlans,
 };
 
+const MAX_HEALTH_CHILDREN = 6;
+
 const HEALTH_PED_OPTIONS = [
   { id: 'diabetes', en: 'Diabetes' },
   { id: 'hypertension', en: 'Hypertension / BP' },
@@ -600,6 +613,69 @@ const HEALTH_PED_OPTIONS = [
 
 function defaultMemberMedical() {
   return { ped: '', pedList: [], pedOtherText: '', smoking: '', alcohol: '', surgery12m: '', confirmed: false };
+}
+
+function isHealthChildMemberId(id) {
+  return id === 'son' || id === 'daughter' || (typeof id === 'string' && id.startsWith('child-'));
+}
+
+function countHealthChildSlots(h) {
+  return h.members.filter((m) => isHealthChildMemberId(m.id)).length;
+}
+
+function nextHealthChildMemberId(h) {
+  let n = 3;
+  while (h.members.some((m) => m.id === `child-${n}`)) n += 1;
+  return `child-${n}`;
+}
+
+function nextHealthChildLabel(h) {
+  const extras = h.members.filter((m) => m.id.startsWith('child-')).length;
+  return `Child ${extras + 3}`;
+}
+
+function insertHealthChildMember(h, member) {
+  const fatherIdx = h.members.findIndex((m) => m.id === 'father');
+  const at = fatherIdx >= 0 ? fatherIdx : h.members.length;
+  h.members.splice(at, 0, member);
+}
+
+function addHealthChildMember() {
+  const h = quoteForm.health;
+  if (h.planType === 'individual') return;
+  captureHealthFormFromDOM();
+  if (countHealthChildSlots(h) >= MAX_HEALTH_CHILDREN) {
+    if (wizardState) {
+      wizardState.formError = `You can add up to ${MAX_HEALTH_CHILDREN} children on one family floater quote.`;
+    }
+    render();
+    return;
+  }
+  const id = nextHealthChildMemberId(h);
+  insertHealthChildMember(h, {
+    id,
+    label: nextHealthChildLabel(h),
+    selected: true,
+    age: '',
+    gender: 'male',
+    fullName: '',
+    dob: '',
+    medical: defaultMemberMedical(),
+  });
+  if (wizardState) wizardState.formError = '';
+  render();
+}
+
+function removeHealthChildMember(id) {
+  if (!id || !id.startsWith('child-')) return;
+  const h = quoteForm.health;
+  captureHealthFormFromDOM();
+  const idx = h.members.findIndex((m) => m.id === id);
+  if (idx < 0) return;
+  h.members.splice(idx, 1);
+  if (wizardState?.medicalMemberId === id) wizardState.medicalMemberId = null;
+  if (wizardState) wizardState.formError = '';
+  render();
 }
 
 function applyHealthQuotePreset(form, preset) {
@@ -618,12 +694,12 @@ function defaultHealthQuoteForm() {
   return {
     planType: 'floater',
     members: [
-      { id: 'self', label: 'Self', selected: true, age: '', gender: 'male', medical: defaultMemberMedical() },
-      { id: 'spouse', label: 'Spouse', selected: true, age: '', gender: 'female', medical: defaultMemberMedical() },
-      { id: 'son', label: 'Son', selected: false, age: '', gender: 'male', medical: defaultMemberMedical() },
-      { id: 'daughter', label: 'Daughter', selected: false, age: '', gender: 'female', medical: defaultMemberMedical() },
-      { id: 'father', label: 'Father', selected: false, age: '', gender: 'male', medical: defaultMemberMedical() },
-      { id: 'mother', label: 'Mother', selected: false, age: '', gender: 'female', medical: defaultMemberMedical() },
+      { id: 'self', label: 'Self', selected: true, age: '', gender: 'male', fullName: '', dob: '', medical: defaultMemberMedical() },
+      { id: 'spouse', label: 'Spouse', selected: true, age: '', gender: 'female', fullName: '', dob: '', medical: defaultMemberMedical() },
+      { id: 'son', label: 'Son', selected: false, age: '', gender: 'male', fullName: '', dob: '', medical: defaultMemberMedical() },
+      { id: 'daughter', label: 'Daughter', selected: false, age: '', gender: 'female', fullName: '', dob: '', medical: defaultMemberMedical() },
+      { id: 'father', label: 'Father', selected: false, age: '', gender: 'male', fullName: '', dob: '', medical: defaultMemberMedical() },
+      { id: 'mother', label: 'Mother', selected: false, age: '', gender: 'female', fullName: '', dob: '', medical: defaultMemberMedical() },
     ],
     pincode: '',
     existingPolicy: 'no',
@@ -1853,7 +1929,7 @@ function seedHomeQuoteFormForCapture() {
 
 function seedCheckoutForCapture(product) {
   resetCheckoutSession(product);
-  checkoutForm = { nominee: 'Priya Sharma', pan: 'ABCDE1234F', declaration: true };
+  checkoutForm = { proposerName: 'Priya Sharma', nominee: 'Priya Sharma', nomineeDob: '', pan: 'ABCDE1234F', declaration: true };
   selectedPayment = 'upi';
   selectedBankOffer = 'paytm';
   paymentForm.upiId = 'priya@okicici';
@@ -2664,6 +2740,10 @@ function renderProductPlanCard(plan, product) {
       <div class="plan-item__metric"><strong>₹${plan.contents}L</strong>Contents</div>
       <div class="plan-item__metric"><strong>${plan.eq ? 'Yes' : 'Add-on'}</strong>Earthquake</div>`;
     features = `<span class="feature-tag">${plan.perils}</span>`;
+  } else if (product === 'motor') {
+    metrics = `<div class="plan-item__metric"><strong>${formatPremium(plan.idv)}</strong>IDV</div>
+      <div class="plan-item__metric"><strong>${motorNcbPercent()}%</strong>Your NCB</div>
+      <div class="plan-item__metric"><strong>${plan.zeroDep ? 'Yes' : 'No'}</strong>Zero dep</div>`;
   }
 
   const showCompare = COMPARE_PRODUCTS.includes(product);
@@ -4179,6 +4259,7 @@ function renderCompareView() {
     const step = PRODUCT_CONFIG[product]?.resultsStep ?? 3;
     wizardState = { type: product, step };
     if (product === 'health') return renderHealthWizard(step);
+    if (product === 'motor') return renderMotorWizard(step);
     return renderProductWizard(product, step);
   }
 
@@ -4292,9 +4373,31 @@ function renderMedicalMemberSwitcher(activeId) {
     <h2 class="quote-form__h2 medical-member-title">Whose medical history? <strong>${active.label}</strong> <span class="medical-member-title__meta">(Age ${active.age})</span></h2>`;
 }
 
+function renderHealthPlanTypeChooser(planType) {
+  const options = [
+    { id: 'individual', title: 'Individual', sub: 'One person' },
+    { id: 'floater', title: 'Family floater', sub: '2+ members' },
+  ];
+  const segments = options.map((opt) => {
+    const on = planType === opt.id;
+    return `<button type="button" class="plan-type-seg ${on ? 'plan-type-seg--on' : ''}" data-health-plan-type="${opt.id}" role="radio" aria-checked="${on}" aria-label="${opt.title}, ${opt.sub}">
+      <span class="plan-type-seg__title">${opt.title}</span>
+      <span class="plan-type-seg__sub">${opt.sub}</span>
+    </button>`;
+  }).join('');
+  return `
+    <div class="member-list-panel member-list-panel--plan-type">
+      <h2 class="quote-form__h2 member-list-panel__heading" id="healthPlanTypeLabel">Plan type</h2>
+      <p class="quote-form__hint plan-type-hint">Tap one option — both are selectable.</p>
+      <div class="plan-type-field" role="radiogroup" aria-labelledby="healthPlanTypeLabel">${segments}</div>
+    </div>`;
+}
+
 function captureHealthFormFromDOM() {
   const h = quoteForm.health;
-  h.planType = document.querySelector('[data-health-plan-type].chip.selected')?.dataset.healthPlanType || h.planType;
+  const planSeg = document.querySelector('[data-health-plan-type].plan-type-seg--on');
+  const planChip = document.querySelector('[data-health-plan-type].chip.selected');
+  h.planType = planSeg?.dataset.healthPlanType || planChip?.dataset.healthPlanType || h.planType;
   h.pincode = document.getElementById('healthPincode')?.value.replace(/\D/g, '').slice(0, 6) || h.pincode;
   h.existingPolicy = document.querySelector('[data-health-existing].chip.selected')?.dataset.healthExisting || h.existingPolicy;
   const si = document.querySelector('[data-health-si].chip.selected')?.dataset.healthSi;
@@ -4450,31 +4553,43 @@ function renderHealthWizard(step) {
   const progress = renderWizardProgress(steps, step);
   const individual = h.planType === 'individual';
   const memberRows = h.members.map((m) => {
-    const offAction = individual ? 'Select' : 'Add';
-    const onAction = individual ? 'Selected' : 'Added';
+    const extraChild = m.id.startsWith('child-');
+    const removeChildBtn = extraChild
+      ? `<button type="button" class="member-row__remove" data-action="remove-child-member" data-member="${m.id}">Remove</button>`
+      : '';
+    const cta = !m.selected && !individual
+      ? '<span class="member-row__cta" aria-hidden="true">Add</span>'
+      : '';
+    const showFields = m.selected;
     return `
     <div class="member-row ${m.selected ? 'member-row--on' : ''} ${individual ? 'member-row--radio' : ''}" data-member-row="${m.id}" data-action="pick-member" data-member="${m.id}" role="${individual ? 'radio' : 'checkbox'}" aria-checked="${m.selected}" tabindex="0">
-      <button type="button" class="member-row__check" data-action="toggle-member" data-member="${m.id}" aria-pressed="${m.selected}" aria-label="${m.selected ? `Remove ${m.label}` : `Add ${m.label}`}">
-        <span class="member-row__check-icon" aria-hidden="true"></span>
-      </button>
       <div class="member-row__body">
         <div class="member-row__head">
+          <button type="button" class="member-row__check" data-action="toggle-member" data-member="${m.id}" aria-pressed="${m.selected}" aria-label="${m.selected ? `Remove ${m.label}` : `Add ${m.label}`}">
+            <span class="member-row__check-icon" aria-hidden="true"></span>
+          </button>
           <span class="member-row__title">${m.label}</span>
-          <span class="member-row__action ${m.selected ? 'member-row__action--on' : ''}" aria-hidden="true">${m.selected ? onAction : offAction}</span>
+          ${removeChildBtn}
+          ${cta}
         </div>
-        <div class="member-row__fields" ${m.selected ? '' : 'hidden'}>
-          <label class="member-row__field member-row__field--age">
-            <span class="member-row__field-label">Age (years)</span>
-            <input type="number" class="member-row__age" min="0" max="99" inputmode="numeric" value="${esc(m.age)}" placeholder="Age" aria-label="${m.label} age">
-          </label>
-          <div class="member-row__field member-row__field--gender">
-            <span class="member-row__field-label" id="memberGenderLabel-${m.id}">Gender</span>
-            <div class="member-row__gender-chips" role="radiogroup" aria-labelledby="memberGenderLabel-${m.id}">
-              <button type="button" class="member-gender-btn ${m.gender === 'male' ? 'selected' : ''}" data-member-gender data-member="${m.id}" data-gender="male" role="radio" aria-checked="${m.gender === 'male'}">Male</button>
-              <button type="button" class="member-gender-btn ${m.gender === 'female' ? 'selected' : ''}" data-member-gender data-member="${m.id}" data-gender="female" role="radio" aria-checked="${m.gender === 'female'}">Female</button>
+        ${showFields ? `<div class="member-row__detail">
+          <div class="member-row__inputs" role="group" aria-label="${m.label} age and gender">
+            <label class="member-input-block member-input-block--age">
+              <span class="member-input-block__label">Age</span>
+              <div class="member-age-field">
+                <input type="number" class="member-row__age" min="0" max="99" inputmode="numeric" value="${esc(m.age)}" placeholder="0" aria-label="${m.label} age in years">
+                <span class="member-age-field__suffix" aria-hidden="true">yrs</span>
+              </div>
+            </label>
+            <div class="member-input-block member-input-block--gender">
+              <span class="member-input-block__label" id="memberGenderLabel-${m.id}">Gender</span>
+              <div class="member-gender-field" role="radiogroup" aria-labelledby="memberGenderLabel-${m.id}">
+                <button type="button" class="member-gender-btn ${m.gender === 'male' ? 'selected' : ''}" data-member-gender data-member="${m.id}" data-gender="male" role="radio" aria-checked="${m.gender === 'male'}" aria-label="Male">Male</button>
+                <button type="button" class="member-gender-btn ${m.gender === 'female' ? 'selected' : ''}" data-member-gender data-member="${m.id}" data-gender="female" role="radio" aria-checked="${m.gender === 'female'}" aria-label="Female">Female</button>
+              </div>
             </div>
           </div>
-        </div>
+        </div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -4487,21 +4602,18 @@ function renderHealthWizard(step) {
       ${renderRenewalBanner()}
       <div class="quote-step-tip">${icon('family', ICON_SIZE.md, 'haven-icon haven-icon--inline')} Age & pincode help us show accurate premiums</div>
       ${formErr}
-      <div class="quote-choice-card">
-        <p class="quote-choice-card__title" id="healthPlanTypeLabel">Plan type</p>
-        <div class="chip-group chip-group--segmented chip-group--prominent" role="group" aria-labelledby="healthPlanTypeLabel">
-          <button type="button" class="chip ${h.planType === 'individual' ? 'selected' : ''}" data-health-plan-type="individual"><span class="chip__line">Individual</span><span class="chip__sub">One person</span></button>
-          <button type="button" class="chip ${h.planType === 'floater' ? 'selected' : ''}" data-health-plan-type="floater"><span class="chip__line">Family floater</span><span class="chip__sub">2+ members</span></button>
-        </div>
-      </div>
+      ${renderHealthPlanTypeChooser(h.planType)}
       <h2 class="quote-form__h2">${individual
     ? ('Who needs the policy?')
     : ('Who do you want to cover?')}</h2>
       <p class="quote-form__hint">${individual
     ? ('Individual cover is for one person only. Tap another member to switch.')
-    : ('Family floater can include multiple members.')}</p>
+    : ('Family floater can cover parents and kids. Use Son/Daughter for your first two children, then add more if needed.')}</p>
       <div class="member-list-panel">
         <div class="member-list ${individual ? 'member-list--single' : ''}">${memberRows}</div>
+        ${!individual && countHealthChildSlots(h) < MAX_HEALTH_CHILDREN
+    ? `<button type="button" class="btn btn--ghost btn--sm btn--block member-add-child" data-action="add-child-member">+ Add another child</button>`
+    : ''}
       </div>
       <div class="form-group"><label for="healthPincode">Pincode (city)</label>
         <input id="healthPincode" type="text" inputmode="numeric" maxlength="6" value="${esc(h.pincode)}" placeholder="6-digit pincode" autocomplete="postal-code"></div>
@@ -4675,9 +4787,29 @@ function renderHealthWizard(step) {
 }
 
 function bindQuoteFormEvents() {
+  document.querySelectorAll('[data-health-plan-type].plan-type-seg').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      captureHealthFormFromDOM();
+      setHealthPlanType(btn.dataset.healthPlanType);
+      if (wizardState) wizardState.formError = '';
+      render();
+    });
+  });
+
+  document.querySelector('[data-action="add-child-member"]')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    addHealthChildMember();
+  });
+  document.querySelectorAll('[data-action="remove-child-member"]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      removeHealthChildMember(btn.dataset.member);
+    });
+  });
   document.querySelectorAll('[data-action="pick-member"]').forEach((row) => {
     row.addEventListener('click', (e) => {
       if (e.target.closest('[data-action="toggle-member"]')) return;
+      if (e.target.closest('[data-action="remove-child-member"]')) return;
       if (e.target.closest('.member-row__age') || e.target.closest('[data-member-gender]')) return;
       toggleHealthMember(row.dataset.member);
     });
@@ -4874,30 +5006,7 @@ function renderMotorWizard(step) {
     <div style="padding:0 1rem 0.5rem">${renderJTBDSteps('compare')}</div>
     <div class="results-count">Compare · AI explains · Buy</div>
     <div style="padding:0 1rem">${renderConfusionBusters('motor')}</div>
-    ${renderResultsPlanSection('motor', plans, (p) => {
-      const motorPremium = motorPremiumForPlan(p);
-      return `
-      <div class="plan-item ${p.badge ? 'plan-item--featured' : ''}" data-plan-id="${p.id}">
-        ${p.badge ? `<span class="plan-item__badge">${p.badge}</span>` : ''}
-        <div class="plan-item__header">
-          <div class="plan-item__logo" style="background:${insurerColor(p.insurer)}" aria-hidden="true">${insurerInitials(p.insurer)}</div>
-          <div class="plan-item__info"><div class="plan-item__insurer">${p.insurer}</div><div class="plan-item__plan">${p.plan}</div>
-          ${p.rating ? `<div class="plan-item__rating"><span class="rating-star">★ ${p.rating}</span></div>` : ''}</div>
-        </div>
-        ${renderPlanTrustStats(p, 'motor')}
-        <div class="plan-item__metrics">
-          <div class="plan-item__metric"><strong>${formatPremium(p.idv)}</strong>IDV</div>
-          <div class="plan-item__metric"><strong>${motorNcbPercent()}%</strong>Your NCB</div>
-          <div class="plan-item__metric"><strong>${p.zeroDep ? 'Yes' : 'No'}</strong>Zero dep</div>
-        </div>
-        ${renderPlanPlainSummary(p.id, 'motor')}
-        <div class="plan-item__collapsibles">${renderPlanCollapsibleSections(p.id, 'motor')}</div>
-        <div class="plan-item__footer">
-          ${renderPlanPriceDisplay(motorPremium, { indicative: true })}
-          <div class="plan-item__actions"><button class="btn btn--primary btn--sm" data-action="buy-motor" data-plan-id="${p.id}">Buy now</button></div>
-        </div>
-      </div>`;
-    })}`;
+    ${renderResultsPlanSection('motor', plans, (p) => renderProductPlanCard(p, 'motor'))}`;
 }
 
 function calcDiscount(total) {
@@ -4956,7 +5065,7 @@ function getCheckoutAddonsSummary(product) {
 
 function resetCheckoutSession(product) {
   checkoutPhase = 'review';
-  checkoutForm = { nominee: '', pan: '', declaration: false };
+  checkoutForm = { proposerName: '', nominee: '', nomineeDob: '', pan: '', declaration: false };
   paymentForm = { upiId: '', cardNumber: '', cardExpiry: '', cardCvv: '', bank: NET_BANKS[0] };
   selectedPayment = 'upi';
   selectedBankOffer = 'paytm';
@@ -4967,8 +5076,62 @@ function generatePolicyNumber(product) {
   return `HAVEN/${prefix}/${new Date().getFullYear()}/${Math.floor(100000 + Math.random() * 900000)}`;
 }
 
-function captureCheckoutFormFromDOM() {
+function parseCheckoutDate(iso) {
+  if (!iso || typeof iso !== 'string') return null;
+  const d = new Date(`${iso}T12:00:00`);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function ageFromCheckoutDob(iso) {
+  const d = parseCheckoutDate(iso);
+  if (!d) return null;
+  const today = new Date();
+  let age = today.getFullYear() - d.getFullYear();
+  const monthDiff = today.getMonth() - d.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < d.getDate())) age -= 1;
+  return age;
+}
+
+function maxCheckoutDobIso() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function minCheckoutDobIso() {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() - 99);
+  return d.toISOString().slice(0, 10);
+}
+
+function ensureMemberIdentityFields(member) {
+  if (member.fullName == null) member.fullName = '';
+  if (member.dob == null) member.dob = '';
+}
+
+function ensureCheckoutProposerPrefill() {
+  if (!checkoutForm.proposerName?.trim()) {
+    checkoutForm.proposerName = authUser?.name || signupDraft?.name || '';
+  }
+}
+
+function captureHealthInsuredFromDOM() {
+  if (wizardState?.type !== 'health') return;
+  checkoutForm.proposerName = document.getElementById('checkoutProposerName')?.value.trim() || checkoutForm.proposerName;
   checkoutForm.nominee = document.getElementById('checkoutNominee')?.value.trim() || checkoutForm.nominee;
+  checkoutForm.nomineeDob = document.getElementById('checkoutNomineeDob')?.value || checkoutForm.nomineeDob;
+  quoteForm.health.members.forEach((m) => {
+    ensureMemberIdentityFields(m);
+    const nameEl = document.getElementById(`insuredName-${m.id}`);
+    const dobEl = document.getElementById(`insuredDob-${m.id}`);
+    if (nameEl) m.fullName = nameEl.value.trim();
+    if (dobEl) m.dob = dobEl.value;
+  });
+}
+
+function captureCheckoutFormFromDOM() {
+  if (wizardState?.type === 'health') captureHealthInsuredFromDOM();
+  else {
+    checkoutForm.nominee = document.getElementById('checkoutNominee')?.value.trim() || checkoutForm.nominee;
+  }
   checkoutForm.pan = document.getElementById('checkoutPan')?.value.trim().toUpperCase() || checkoutForm.pan;
   checkoutForm.declaration = !!document.getElementById('checkoutDeclaration')?.checked;
 }
@@ -4997,7 +5160,27 @@ function validatePaymentDetails() {
 function validateCheckoutReview(product) {
   captureCheckoutFormFromDOM();
   if (!checkoutForm.declaration) return 'Please confirm the declaration to continue';
-  if ((product === 'health' || product === 'term') && !checkoutForm.nominee.trim()) {
+  if (product === 'health') {
+    if (!checkoutForm.proposerName.trim()) return 'Enter proposer full name (person buying the policy)';
+    const insured = selectedHealthMembers();
+    for (const m of insured) {
+      ensureMemberIdentityFields(m);
+      if (m.fullName.trim().length < 2) return `Enter full legal name for ${m.label}`;
+      if (!m.dob) return `Enter date of birth for ${m.label}`;
+      if (parseCheckoutDate(m.dob) == null) return `Enter a valid date of birth for ${m.label}`;
+      const quotedAge = Number(m.age);
+      const fromDob = ageFromCheckoutDob(m.dob);
+      if (!Number.isNaN(quotedAge) && fromDob != null && Math.abs(fromDob - quotedAge) > 1) {
+        return `Date of birth for ${m.label} doesn't match age ${quotedAge} from your quote`;
+      }
+    }
+    if (!checkoutForm.nominee.trim()) return 'Enter nominee full name';
+    if (checkoutForm.nomineeDob && parseCheckoutDate(checkoutForm.nomineeDob) == null) {
+      return 'Enter a valid nominee date of birth';
+    }
+    return '';
+  }
+  if (product === 'term' && !checkoutForm.nominee.trim()) {
     return 'Enter nominee name';
   }
   if (product === 'term') {
@@ -5028,13 +5211,62 @@ function renderCheckoutDeclaration() {
   </div>`;
 }
 
+function renderHealthCheckoutProposal() {
+  ensureCheckoutProposerPrefill();
+  const insured = selectedHealthMembers();
+  const minDob = minCheckoutDobIso();
+  const maxDob = maxCheckoutDobIso();
+  const insuredRows = insured.map((m) => {
+    ensureMemberIdentityFields(m);
+    const ageHint = m.age !== '' && m.age != null ? `Quoted age: ${m.age}` : '';
+    return `<div class="checkout-insured" data-insured-row="${m.id}">
+      <div class="checkout-insured__head">
+        <span class="checkout-insured__relation">${m.label}</span>
+        ${ageHint ? `<span class="checkout-insured__meta">${ageHint}</span>` : ''}
+      </div>
+      <div class="form-row form-row--2 checkout-insured__fields">
+        <div class="form-group">
+          <label for="insuredName-${m.id}">Full name</label>
+          <input id="insuredName-${m.id}" type="text" value="${esc(m.fullName)}" placeholder="As on ID proof" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="insuredDob-${m.id}">Date of birth</label>
+          <input id="insuredDob-${m.id}" type="date" class="checkout-date" value="${esc(m.dob)}" min="${minDob}" max="${maxDob}" aria-label="${m.label} date of birth">
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<section class="checkout-proposal" aria-labelledby="checkoutProposalTitle">
+    <h2 class="quote-form__h2" id="checkoutProposalTitle">Proposal details</h2>
+    <p class="quote-form__hint">Legal names and DOB are required to issue the policy (same as insurer proposal form).</p>
+    <div class="form-group">
+      <label for="checkoutProposerName">Proposer full name</label>
+      <input id="checkoutProposerName" type="text" value="${esc(checkoutForm.proposerName)}" placeholder="Person buying this policy" autocomplete="name">
+      <p class="quote-form__hint checkout-proposal__hint">Usually the same as Self if you are the primary earner.</p>
+    </div>
+    <h3 class="checkout-proposal__sub">Insured members</h3>
+    ${insuredRows}
+    <h3 class="checkout-proposal__sub">Nominee</h3>
+    <div class="form-row form-row--2">
+      <div class="form-group">
+        <label for="checkoutNominee">Nominee full name</label>
+        <input id="checkoutNominee" type="text" value="${esc(checkoutForm.nominee)}" placeholder="Full name" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="checkoutNomineeDob">Nominee date of birth <span class="checkout-optional">(optional)</span></label>
+        <input id="checkoutNomineeDob" type="date" class="checkout-date" value="${esc(checkoutForm.nomineeDob)}" min="${minDob}" max="${maxDob}">
+      </div>
+    </div>
+  </section>`;
+}
+
 function renderCheckoutFields(product) {
+  if (product === 'health') return renderHealthCheckoutProposal();
   const fields = [];
-  if (product === 'health' || product === 'term') {
+  if (product === 'term') {
     fields.push(`<div class="form-group"><label for="checkoutNominee">Nominee</label>
       <input id="checkoutNominee" type="text" value="${esc(checkoutForm.nominee)}" placeholder="Full name" autocomplete="name"></div>`);
-  }
-  if (product === 'term') {
     fields.push(`<div class="form-group"><label for="checkoutPan">Proposer PAN</label>
       <input id="checkoutPan" type="text" value="${esc(checkoutForm.pan)}" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase" autocomplete="off"></div>`);
   }
@@ -5321,9 +5553,8 @@ function retryPayment(product) {
   }, 2000);
 }
 
-function renderBackBtn() {
-  const label = 'Go back';
-  return `<button type="button" class="back-btn" data-action="go-back" aria-label="${label}">${iconBack()}</button>`;
+function renderBackBtn(action = 'go-back', ariaLabel = 'Go back') {
+  return `<button type="button" class="back-btn" data-action="${action}" aria-label="${ariaLabel}">${iconBack()}</button>`;
 }
 
 /** Standard screen shell: static sub-header (no overlap with content). */
@@ -5351,6 +5582,26 @@ function resetMainScroll() {
   const main = document.getElementById('mainContent');
   if (main) main.scrollTop = 0;
   window.scrollTo(0, 0);
+}
+
+function captureMainScroll() {
+  const main = document.getElementById('mainContent');
+  return { main: main?.scrollTop || 0, windowY: window.scrollY || 0 };
+}
+
+function restoreMainScroll(snapshot) {
+  if (!snapshot) return;
+  const apply = () => {
+    const main = document.getElementById('mainContent');
+    if (main) main.scrollTop = snapshot.main;
+    window.scrollTo(0, snapshot.windowY);
+  };
+  requestAnimationFrame(() => requestAnimationFrame(apply));
+}
+
+/** Re-render checkout UI without jumping scroll (coupons, bank offers, payment method). */
+function renderPreserveScroll() {
+  render({ preserveScroll: true });
 }
 
 function renderSignup(step) {
@@ -5464,7 +5715,7 @@ function renderSuccess() {
     : '';
   return `<div class="policy-success">
     <div class="page-header page-header--static">
-      ${renderBackBtn()}
+      ${renderBackBtn('home', 'Back to home')}
     </div>
     <div class="policy-success__body section main--padded">
       ${renderCheckoutDemoBanner()}
@@ -5545,7 +5796,9 @@ function updateCompareBar() {
   }
 }
 
-function render() {
+function render(options = {}) {
+  const preserveScroll = options.preserveScroll === true;
+  const scrollSnapshot = preserveScroll ? captureMainScroll() : null;
   const main = document.getElementById('mainContent');
   let html = '';
   if (wizardState?.type === 'cover-guide') html = renderCoverGuideWizard();
@@ -5585,7 +5838,8 @@ function render() {
   initPageHavenSelects();
   bindEvents();
   updateCompareBar();
-  resetMainScroll();
+  if (preserveScroll) restoreMainScroll(scrollSnapshot);
+  else resetMainScroll();
   if (wizardState?.type === 'signup') bindSignupEvents();
   if (checkoutShouldFocusPayment) {
     checkoutShouldFocusPayment = false;
@@ -6007,7 +6261,7 @@ function bindEvents() {
       capturePaymentFormFromDOM();
       selectedPayment = el.dataset.payment;
       syncBankOfferWithPayment();
-      render();
+      renderPreserveScroll();
     });
   });
 
@@ -6017,7 +6271,7 @@ function bindEvents() {
       capturePaymentFormFromDOM();
       applyBankOfferSelection(el.dataset.bankOffer);
       if (wizardState) wizardState.formError = '';
-      render();
+      renderPreserveScroll();
     });
   });
 
@@ -6029,10 +6283,10 @@ function bindEvents() {
       appliedCoupon = code;
       couponInput = code;
       couponFieldError = '';
-      render();
+      renderPreserveScroll();
     } else {
       couponFieldError = 'This coupon code isn\'t valid.';
-      render();
+      renderPreserveScroll();
     }
   });
 
@@ -6042,7 +6296,7 @@ function bindEvents() {
       appliedCoupon = el.dataset.code;
       couponInput = el.dataset.code;
       couponFieldError = '';
-      render();
+      renderPreserveScroll();
     });
   });
 
@@ -6051,7 +6305,7 @@ function bindEvents() {
     appliedCoupon = null;
     couponInput = '';
     couponFieldError = '';
-    render();
+    renderPreserveScroll();
   });
 
   document.getElementById('healthPedOther')?.addEventListener('input', (e) => {
@@ -6059,8 +6313,28 @@ function bindEvents() {
     if (active) ensureMemberMedical(active).pedOtherText = e.target.value;
   });
 
+  document.getElementById('checkoutProposerName')?.addEventListener('input', (e) => {
+    checkoutForm.proposerName = e.target.value;
+  });
   document.getElementById('checkoutNominee')?.addEventListener('input', (e) => {
     checkoutForm.nominee = e.target.value;
+  });
+  document.getElementById('checkoutNomineeDob')?.addEventListener('change', (e) => {
+    checkoutForm.nomineeDob = e.target.value;
+  });
+  document.querySelectorAll('[id^="insuredName-"]').forEach((el) => {
+    el.addEventListener('input', () => {
+      const id = el.id.replace('insuredName-', '');
+      const m = quoteForm.health.members.find((x) => x.id === id);
+      if (m) m.fullName = el.value;
+    });
+  });
+  document.querySelectorAll('[id^="insuredDob-"]').forEach((el) => {
+    el.addEventListener('change', () => {
+      const id = el.id.replace('insuredDob-', '');
+      const m = quoteForm.health.members.find((x) => x.id === id);
+      if (m) m.dob = el.value;
+    });
   });
   document.getElementById('checkoutPan')?.addEventListener('input', (e) => {
     checkoutForm.pan = e.target.value;
@@ -6073,7 +6347,7 @@ function bindEvents() {
     couponInput = e.target.value;
     if (couponFieldError) {
       couponFieldError = '';
-      render();
+      renderPreserveScroll();
     }
   });
 

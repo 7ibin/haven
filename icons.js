@@ -141,7 +141,7 @@ function hydrateShellIcons() {
     const key = navMap[btn.dataset.view];
     if (!key) return;
     const slot = btn.querySelector('.bottom-nav__icon-slot');
-    const target = slot || btn;
+    const target = slot || btn.querySelector('.bottom-nav__icon-wrap') || btn;
     const existing = target.querySelector('.haven-icon, svg');
     if (existing) existing.remove();
     const html = icon(key, ICON_SIZE.lg, 'haven-icon haven-icon--nav');

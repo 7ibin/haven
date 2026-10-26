@@ -4792,7 +4792,7 @@ function bindQuoteFormEvents() {
       captureHealthFormFromDOM();
       setHealthPlanType(btn.dataset.healthPlanType);
       if (wizardState) wizardState.formError = '';
-      render();
+      renderPreserveScroll();
     });
   });
 
@@ -4833,7 +4833,7 @@ function bindQuoteFormEvents() {
         wizardState.medicalMemberId = btn.dataset.member;
         wizardState.formError = '';
       }
-      render();
+      renderPreserveScroll();
     });
   });
   document.querySelectorAll('[data-health-ped]').forEach((btn) => {
@@ -4849,7 +4849,7 @@ function bindQuoteFormEvents() {
         }
       }
       if (wizardState) wizardState.formError = '';
-      render();
+      renderPreserveScroll();
     });
   });
   document.querySelectorAll('[data-home-property]').forEach((btn) => {
@@ -4857,7 +4857,7 @@ function bindQuoteFormEvents() {
       captureHomeFormFromDOM();
       quoteForm.home.propertyType = btn.dataset.homeProperty;
       if (wizardState) wizardState.formError = '';
-      render();
+      renderPreserveScroll();
     });
   });
   document.querySelectorAll('[data-home-cover]').forEach((btn) => {
@@ -4865,7 +4865,7 @@ function bindQuoteFormEvents() {
       captureHomeFormFromDOM();
       quoteForm.home.coverType = btn.dataset.homeCover;
       if (wizardState) wizardState.formError = '';
-      render();
+      renderPreserveScroll();
     });
   });
 
@@ -4887,7 +4887,7 @@ function bindQuoteFormEvents() {
           list.push(id);
         }
         if (wizardState) wizardState.formError = '';
-        render();
+        renderPreserveScroll();
         return;
       }
       if (btn.hasAttribute('data-member-gender')) {
@@ -4899,14 +4899,14 @@ function bindQuoteFormEvents() {
           if (quoteForm.health.planType === 'individual') m.selected = true;
           applyHealthMemberSelectionRules();
         }
-        render();
+        renderPreserveScroll();
         return;
       }
       if (btn.dataset.healthPlanType) {
         captureHealthFormFromDOM();
         setHealthPlanType(btn.dataset.healthPlanType);
         if (wizardState) wizardState.formError = '';
-        render();
+        renderPreserveScroll();
         return;
       }
       const group = btn.closest('.chip-group');
@@ -4917,7 +4917,7 @@ function bindQuoteFormEvents() {
       captureHealthFormFromDOM();
       captureMotorFormFromDOM();
       if (wizardState) wizardState.formError = '';
-      render();
+      renderPreserveScroll();
     });
   });
 }
@@ -6044,19 +6044,19 @@ function bindEvents() {
   document.querySelectorAll('[data-term-cover]').forEach((btn) => {
     btn.addEventListener('click', () => {
       quoteForm.term.cover = Number(btn.dataset.termCover);
-      render();
+      renderPreserveScroll();
     });
   });
   document.querySelectorAll('[data-term-tenure]').forEach((btn) => {
     btn.addEventListener('click', () => {
       quoteForm.term.tenure = Number(btn.dataset.termTenure);
-      render();
+      renderPreserveScroll();
     });
   });
   document.querySelectorAll('[data-term-smoking]').forEach((btn) => {
     btn.addEventListener('click', () => {
       quoteForm.term.smoking = btn.dataset.termSmoking;
-      render();
+      renderPreserveScroll();
     });
   });
   document.querySelectorAll('[data-term-input]').forEach((input) => {
@@ -6365,7 +6365,7 @@ function bindEvents() {
       if (k === 'opd') healthAddons.opd = !healthAddons.opd;
       else if (k === 'maternity') healthAddons.maternity = !healthAddons.maternity;
       else if (k === 'critical') healthAddons.critical = !healthAddons.critical;
-      render();
+      renderPreserveScroll();
     });
   });
 
@@ -6374,7 +6374,7 @@ function bindEvents() {
       const k = el.dataset.motorAddon;
       if (k && Object.prototype.hasOwnProperty.call(motorAddons, k)) {
         motorAddons[k] = !motorAddons[k];
-        render();
+        renderPreserveScroll();
       }
     });
   });

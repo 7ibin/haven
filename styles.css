@@ -945,6 +945,7 @@ h2 { font-size: 1.125rem; font-weight: 700; color: var(--color-ink); margin: 0 0
 .home-hero__sub { font-size: 0.8125rem; opacity: 0.9; margin: 0 0 1.25rem; line-height: 1.45; position: relative; }
 
 .quote-card {
+  container-type: inline-size;
   background: var(--color-white); border-radius: var(--radius-lg); padding: 1rem;
   box-shadow: 0 8px 32px rgba(0,0,0,0.15); position: relative;
   color: var(--color-ink);
@@ -953,19 +954,29 @@ h2 { font-size: 1.125rem; font-weight: 700; color: var(--color-ink); margin: 0 0
   display: block; font-size: var(--text-ui); font-weight: 600; color: var(--color-ink);
   margin-bottom: 0.45rem; line-height: 1.4;
 }
-.quote-card__row {
-  display: flex; flex-direction: row; flex-wrap: nowrap; align-items: flex-start; gap: 0.45rem;
+.quote-card--v2 .quote-card__label {
+  font-size: 1rem; font-weight: 700; color: var(--color-ink); margin-bottom: 0.5rem;
 }
-.quote-card__row .haven-select {
+.quote-card__row {
+  display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+}
+.quote-card__row .haven-select,
+.quote-card__row .quote-card__select {
   flex: 1 1 0; min-width: 0; max-width: 100%; width: auto;
 }
 .quote-card__row .haven-select__trigger { width: 100%; }
 .quote-card .haven-select__trigger {
-  height: 44px; min-height: 44px; max-height: 44px;
-  padding: 0 1.75rem 0 0.65rem;
+  min-height: var(--touch-target); height: auto;
+  padding: 0 1.75rem 0 0.75rem;
   border: 1.5px solid #c5d9ed; border-radius: var(--radius);
   background-color: var(--color-primary-muted); color: var(--color-primary);
   font-weight: 600; font-size: var(--text-body); line-height: 1.3;
+}
+.quote-card--v2 .haven-select__trigger,
+.quote-card--v2 .quote-card__select {
+  border-radius: 11px;
+  border-color: #c5d9ed;
+  background-color: #e8f2fc;
 }
 .quote-card .haven-select.is-open .haven-select__trigger {
   border-color: var(--color-primary);
@@ -986,9 +997,8 @@ h2 { font-size: 1.125rem; font-weight: 700; color: var(--color-ink); margin: 0 0
   color: var(--color-primary);
 }
 .quote-card__select {
-  flex: 1 1 0; min-width: 0; width: auto; max-width: none;
-  height: 44px; min-height: 44px; max-height: 44px;
-  margin: 0; padding: 0 1.75rem 0 0.65rem;
+  min-height: var(--touch-target); height: auto;
+  margin: 0; padding: 0 1.75rem 0 0.75rem;
   border: 1.5px solid #c5d9ed; border-radius: var(--radius);
   font-family: var(--font); font-size: var(--text-body); font-weight: 600; color: var(--color-primary);
   line-height: 1.3;
@@ -1003,11 +1013,18 @@ h2 { font-size: 1.125rem; font-weight: 700; color: var(--color-ink); margin: 0 0
   box-shadow: 0 0 0 3px rgba(13, 79, 139, 0.14);
 }
 .quote-card__btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.25rem;
-  flex: 0 0 auto; height: 44px; min-height: 44px; padding: 0 0.8rem; border: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+  flex: 0 0 auto; min-height: var(--touch-target); height: auto;
+  padding: 0 0.9rem; border: none;
   background: var(--color-accent); color: white; border-radius: var(--radius);
   font-family: var(--font); font-size: var(--text-ui); font-weight: 800; cursor: pointer;
-  white-space: nowrap;
+  line-height: 1.25; white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(194, 78, 0, 0.28);
+}
+.quote-card--v2 .quote-card__btn {
+  border-radius: 11px;
+  padding: 0 1rem;
+  font-size: 0.9375rem;
 }
 .quote-card__btn .haven-icon { font-size: var(--icon-size-md) !important; }
 .quote-card__btn svg { width: 16px; height: 16px; }
@@ -1025,7 +1042,20 @@ h2 { font-size: 1.125rem; font-weight: 700; color: var(--color-ink); margin: 0 0
   color: var(--color-primary); cursor: pointer; line-height: 1.35;
   min-height: var(--touch-target);
 }
+.quote-card--v2 .quote-card__popular-chips button {
+  min-height: 2.25rem;
+  padding: 0.4rem 0.8rem;
+  border: 1.5px solid #c5d9ed;
+  background: #e8f2fc;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.8125rem;
+}
 .quote-card__popular-chips button:hover { border-color: var(--color-primary); background: var(--color-primary-muted); }
+.quote-card--v2 .quote-card__popular-chips button:hover {
+  background: #dceefb;
+  border-color: var(--color-primary);
+}
 .quote-card__ai {
   display: flex; align-items: center; gap: 0.5rem; width: 100%; margin-top: 0.75rem; padding: 0.7rem 0.85rem;
   background: linear-gradient(135deg, #f0f6fc 0%, #fff8f4 100%);
@@ -1734,14 +1764,14 @@ body.wizard-mode.compare-open .ai-fab {
   color: var(--color-ink-muted);
 }
 .chip-group--segmented {
-  display: flex; width: 100%; padding: 5px; gap: 0.4rem;
+  display: flex; flex-wrap: wrap; width: 100%; padding: 5px; gap: 0.4rem;
   background: #eef3f9; border: 1.5px solid #c5d9ed; border-radius: 12px;
 }
 .chip-group--segmented.chip-group--prominent {
   padding: 0.4rem; gap: 0.45rem; background: #f4f8fc;
 }
 .chip-group--segmented .chip {
-  flex: 1; min-width: 0; min-height: calc(var(--touch-target) + 10px);
+  flex: 1 1 7.5rem; min-width: 0; min-height: calc(var(--touch-target) + 10px); height: auto;
   padding: 0.55rem 0.5rem; border: 2px solid #c5d9ed; border-radius: 10px;
   background: var(--color-white); box-shadow: none;
   line-height: 1.25; text-align: center;
@@ -3790,8 +3820,35 @@ body.wizard-mode .ai-fab { bottom: calc(1rem + var(--safe-bottom)); }
   .header-chip--account { max-width: 5.5rem; }
 }
 
-@media (min-width: 401px) and (max-width: 480px) {
-  .quote-card__btn { white-space: nowrap; flex: 0 0 auto; }
+/* Hero quote row — stack only when side-by-side cannot fit (tiny width or very large text) */
+@media (max-width: 340px) {
+  .quote-card__row .haven-select,
+  .quote-card__row .quote-card__select {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .quote-card__btn {
+    flex: 1 1 100%;
+    width: 100%;
+    margin-top: 0.35rem;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@container (max-width: 17.5rem) {
+  .quote-card__row .haven-select,
+  .quote-card__row .quote-card__select {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .quote-card__btn {
+    flex: 1 1 100%;
+    width: 100%;
+    margin-top: 0.35rem;
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 /* Mobile readability — WCAG 1.4.3 contrast, 1.4.4 resize text, 2.5.5 touch targets */
@@ -3876,8 +3933,6 @@ body.wizard-mode .ai-fab { bottom: calc(1rem + var(--safe-bottom)); }
   }
   .bottom-nav__label { font-size: 0.625rem; }
   .bottom-nav__item { padding: 0.15rem 0.1rem; }
-  .quote-card__row { flex-wrap: wrap; }
-  .quote-card__btn { width: 100%; margin-top: 0.35rem; }
 }
 
 @media (min-width: 481px) { #app { box-shadow: 0 0 40px rgba(13, 79, 139, 0.1); } }

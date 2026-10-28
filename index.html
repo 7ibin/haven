@@ -7,6 +7,9 @@
       if (/[?&]safe=1(?:&|$)/.test(location.search)) {
         document.documentElement.classList.add('safe-area-preview');
       }
+      if (/[?&]screen=[^&]+/.test(location.search)) {
+        document.documentElement.classList.add('design-capture');
+      }
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
@@ -38,6 +41,7 @@
   <!-- Material Symbols: required by icons.js (icon() renders named glyphs via this font) -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400..500,0..1,0&display=block&icon_names=account_balance,account_balance_wallet,arrow_back,arrow_forward,article,assignment,assignment_turned_in,auto_awesome,autorenew,bolt,call,campaign,car_repair,chat_bubble,check,chevron_right,compare_arrows,credit_card,currency_rupee,description,directions_car,elderly,emoji_events,event,expand_more,explore,family_restroom,folder_open,gavel,health_and_safety,help,home,info,local_hospital,location_on,lock,logout,mail,menu_book,notifications,person,search,send,settings,shield_with_heart,smartphone,support_agent,swap_horiz,sync,two_wheeler,verified_user" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body>
   <div id="splash" class="launch" aria-live="polite" aria-busy="false" data-i18n-aria="a11y.splash" aria-label="Welcome to Haven" hidden>
@@ -98,14 +102,6 @@
         <p>Haven needs JavaScript to compare and buy insurance. Enable JavaScript, then reload this page.</p>
       </noscript>
     </main>
-
-    <div class="compare-bar" id="compareBar" hidden>
-      <div class="compare-bar__info">
-        <span id="compareCount" data-i18n="compare.countZero">0 plans selected</span>
-        <span id="compareLimitMsg" class="compare-bar__limit" hidden></span>
-      </div>
-      <button class="btn btn--primary btn--sm" id="compareBtn" type="button" data-i18n="compare.now">Compare now</button>
-    </div>
 
     <button class="ai-fab" id="aiFab" data-i18n-aria="a11y.aiOpen" aria-label="Open AI assistant" title="Ask Haven AI"></button>
 
@@ -217,6 +213,20 @@
       </button>
     </nav>
   </div>
+
+  <div class="compare-bar" id="compareBar" hidden>
+    <div class="compare-bar__head">
+      <div class="compare-bar__meta">
+        <span id="compareCount" class="compare-bar__count" data-i18n="compare.countZero">0 plans selected</span>
+        <span id="compareLimitMsg" class="compare-bar__limit" hidden></span>
+      </div>
+      <button class="btn btn--primary btn--sm" id="compareBtn" type="button" data-i18n="compare.now">Compare now</button>
+    </div>
+    <div class="compare-bar__chip-scroll">
+      <div class="compare-bar__selected" id="compareBarSelected" aria-label="Selected plans for comparison"></div>
+    </div>
+  </div>
+
   <script src="icons.js"></script>
   <script src="app.js"></script>
 </body>

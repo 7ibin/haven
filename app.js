@@ -1809,10 +1809,19 @@ function signupShell(backAction, title, bodyHtml, footerHtml = '', variant = '')
 }
 
 function signupTrustStrip() {
-  return `<div class="signup-trust-strip">
-    <span>${icon('compare', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} ${t('signup.trust1')}</span>
-    <span>${icon('lock', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} ${t('signup.trust2')}</span>
-    <span>${icon('advisor', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} ${t('signup.trust3')}</span>
+  return `<div class="signup-trust-strip" role="list" aria-label="Why Haven is safe">
+    <div class="signup-trust-item" role="listitem">
+      <span class="signup-trust-item__icon" aria-hidden="true">${icon('compare', ICON_SIZE.md, 'haven-icon')}</span>
+      <span class="signup-trust-item__label">${t('signup.trust1')}</span>
+    </div>
+    <div class="signup-trust-item" role="listitem">
+      <span class="signup-trust-item__icon" aria-hidden="true">${icon('lock', ICON_SIZE.md, 'haven-icon')}</span>
+      <span class="signup-trust-item__label">${t('signup.trust2')}</span>
+    </div>
+    <div class="signup-trust-item" role="listitem">
+      <span class="signup-trust-item__icon" aria-hidden="true">${icon('advisor', ICON_SIZE.md, 'haven-icon')}</span>
+      <span class="signup-trust-item__label">${t('signup.trust3')}</span>
+    </div>
   </div>`;
 }
 
@@ -2752,7 +2761,7 @@ function renderProductPlanCard(plan, product) {
   const indicativePrice = product === 'health' || product === 'motor' || product === 'term' || product === 'home';
 
   return `
-    <div class="plan-item ${plan.badge ? 'plan-item--featured' : ''}" data-plan-id="${plan.id}">
+    <div class="plan-item ${plan.badge ? 'plan-item--featured' : ''}${inCompare ? ' plan-item--in-compare' : ''}" data-plan-id="${plan.id}">
       ${plan.badge ? `<span class="plan-item__badge">${plan.badge}</span>` : ''}
       <div class="plan-item__header">
         <div class="plan-item__logo" style="background:${color}" aria-hidden="true">${insurerInitials(plan.insurer)}</div>
@@ -2770,7 +2779,7 @@ function renderProductPlanCard(plan, product) {
       <div class="plan-item__footer">
         ${renderPlanPriceDisplay(displayPremium, { indicative: indicativePrice })}
         <div class="plan-item__actions">
-          ${showCompare ? `<label class="compare-check"><input type="checkbox" data-compare="${plan.id}" ${inCompare ? 'checked' : ''}> Compare</label>` : ''}
+          ${showCompare ? `<label class="compare-check${inCompare ? ' compare-check--selected' : ''}"><input type="checkbox" data-compare="${plan.id}" ${inCompare ? 'checked' : ''}> Compare</label>` : ''}
           <button class="btn btn--primary btn--sm" data-action="buy-product" data-plan-id="${plan.id}" data-product="${product}">Buy now</button>
         </div>
       </div>
@@ -2813,7 +2822,7 @@ function renderProductResults(product) {
   }
 
   const guideNote = (product === 'term' && quoteForm.term?.cover && wizardState?.fromCoverGuide)
-    ? `<div class="cover-guide__applied" role="status">Showing plans for your cover guide · <strong>₹${quoteForm.term.cover >= 100 ? `${quoteForm.term.cover / 100} Cr` : `${quoteForm.term.cover}L`}</strong></div>`
+    ? `<div class="cover-guide__applied" role="status">Showing plans for your cover guide · <strong>${quoteForm.term.cover >= 100 ? `₹${quoteForm.term.cover / 100} Cr` : `₹${quoteForm.term.cover}L`}</strong></div>`
     : '';
 
   const filterBarHtml = filterChips ? `<div class="filter-bar">${filterChips}</div>` : '';
@@ -2937,7 +2946,7 @@ function renderPlanItem(plan, showCompare = true) {
   const inCompare = compareList.includes(plan.id);
   const color = insurerColor(plan.insurer);
   return `
-    <div class="plan-item ${plan.featured ? 'plan-item--featured' : ''}" data-plan-id="${plan.id}">
+    <div class="plan-item ${plan.featured ? 'plan-item--featured' : ''}${inCompare ? ' plan-item--in-compare' : ''}" data-plan-id="${plan.id}">
       ${plan.badge ? `<span class="plan-item__badge">${plan.badge}</span>` : ''}
       <div class="plan-item__header">
         <div class="plan-item__logo" style="background:${color}" aria-hidden="true">${insurerInitials(plan.insurer)}</div>
@@ -2963,7 +2972,7 @@ function renderPlanItem(plan, showCompare = true) {
       <div class="plan-item__footer">
         ${renderPlanPriceDisplay(healthPremiumForPlan(plan), { indicative: true })}
         <div class="plan-item__actions">
-          ${showCompare ? `<label class="compare-check"><input type="checkbox" data-compare="${plan.id}" ${inCompare ? 'checked' : ''}> Compare</label>` : ''}
+          ${showCompare ? `<label class="compare-check${inCompare ? ' compare-check--selected' : ''}"><input type="checkbox" data-compare="${plan.id}" ${inCompare ? 'checked' : ''}> Compare</label>` : ''}
           <button class="btn btn--primary btn--sm" data-action="buy-plan" data-plan-id="${plan.id}">Buy now</button>
         </div>
       </div>
@@ -5128,6 +5137,8 @@ function captureHealthInsuredFromDOM() {
 }
 
 function captureCheckoutFormFromDOM() {
+  const propNameEl = document.getElementById('checkoutProposerName');
+  if (propNameEl) checkoutForm.proposerName = propNameEl.value.trim();
   if (wizardState?.type === 'health') captureHealthInsuredFromDOM();
   else {
     checkoutForm.nominee = document.getElementById('checkoutNominee')?.value.trim() || checkoutForm.nominee;
@@ -5186,6 +5197,12 @@ function validateCheckoutReview(product) {
   if (product === 'term') {
     if (!checkoutForm.pan.trim()) return 'PAN is required for term life policies';
     if (!isValidPan(checkoutForm.pan)) return 'Enter a valid PAN (e.g. ABCDE1234F)';
+  }
+  if (product === 'motor' || product === 'home') {
+    checkoutForm.proposerName = document.getElementById('checkoutProposerName')?.value.trim() || checkoutForm.proposerName;
+    if (!checkoutForm.proposerName.trim()) {
+      return product === 'motor' ? 'Enter vehicle owner full name' : 'Enter property owner full name';
+    }
   }
   return '';
 }
@@ -5264,6 +5281,20 @@ function renderHealthCheckoutProposal() {
 function renderCheckoutFields(product) {
   if (product === 'health') return renderHealthCheckoutProposal();
   const fields = [];
+  if (product === 'motor') {
+    ensureCheckoutProposerPrefill();
+    fields.push(`<div class="form-group"><label for="checkoutProposerName">Vehicle owner full name</label>
+      <input id="checkoutProposerName" type="text" value="${esc(checkoutForm.proposerName)}" placeholder="As on RC book" autocomplete="name"></div>`);
+    fields.push(`<div class="form-group"><label for="checkoutVehicleChassis">Chassis / engine last 5 digits <span class="checkout-optional">(optional)</span></label>
+      <input id="checkoutVehicleChassis" type="text" value="" placeholder="e.g. 12345" maxlength="5" inputmode="numeric" autocomplete="off"></div>`);
+  }
+  if (product === 'home') {
+    ensureCheckoutProposerPrefill();
+    fields.push(`<div class="form-group"><label for="checkoutProposerName">Property owner name</label>
+      <input id="checkoutProposerName" type="text" value="${esc(checkoutForm.proposerName)}" placeholder="Full name" autocomplete="name"></div>`);
+    fields.push(`<div class="form-group"><label for="checkoutPropertyAddress">Flat / house address</label>
+      <input id="checkoutPropertyAddress" type="text" value="" placeholder="Building, street, city" autocomplete="street-address"></div>`);
+  }
   if (product === 'term') {
     fields.push(`<div class="form-group"><label for="checkoutNominee">Nominee</label>
       <input id="checkoutNominee" type="text" value="${esc(checkoutForm.nominee)}" placeholder="Full name" autocomplete="name"></div>`);
@@ -5472,8 +5503,13 @@ function beginCheckoutAuth() {
 function proceedToCheckoutPayment(product) {
   const err = validateCheckoutReview(product);
   if (err) {
-    wizardState.declarationError = err;
-    wizardState.formError = err;
+    wizardState.declarationError = '';
+    wizardState.formError = '';
+    if (err === 'Please confirm the declaration to continue') {
+      wizardState.declarationError = err;
+    } else {
+      wizardState.formError = err;
+    }
     render();
     return;
   }
@@ -5613,8 +5649,8 @@ function renderSignup(step) {
   if (step === 0) {
     const body = `
       <div class="signup-tabs" role="tablist">
-        <button type="button" class="signup-tabs__btn ${tab === 'login' ? 'active' : ''}" data-signup-tab="login" role="tab">${t('signup.loginTab')}</button>
-        <button type="button" class="signup-tabs__btn ${tab === 'signup' ? 'active' : ''}" data-signup-tab="signup" role="tab">${t('signup.signupTab')}</button>
+        <button type="button" class="signup-tabs__btn ${tab === 'login' ? 'active' : ''}" data-signup-tab="login" role="tab" aria-selected="${tab === 'login'}">${t('signup.loginTab')}</button>
+        <button type="button" class="signup-tabs__btn ${tab === 'signup' ? 'active' : ''}" data-signup-tab="signup" role="tab" aria-selected="${tab === 'signup'}">${t('signup.signupTab')}</button>
       </div>
       <p class="signup-card__sub">${t('signup.heroSub')}</p>
       ${err}
@@ -5753,10 +5789,24 @@ function announceCompareSelection(n, atLimit) {
   live.textContent = text;
 }
 
+function syncCompareSelectionUI() {
+  document.querySelectorAll('.plan-item[data-plan-id]').forEach((card) => {
+    const id = card.dataset.planId;
+    card.classList.toggle('plan-item--in-compare', compareList.includes(id));
+  });
+  document.querySelectorAll('[data-compare]').forEach((input) => {
+    const id = input.dataset.compare;
+    const on = compareList.includes(id);
+    input.checked = on;
+    input.closest('.compare-check')?.classList.toggle('compare-check--selected', on);
+  });
+}
+
 function updateCompareBar() {
   const bar = document.getElementById('compareBar');
   const count = document.getElementById('compareCount');
   const limitMsg = document.getElementById('compareLimitMsg');
+  const compareBtn = document.getElementById('compareBtn');
   const live = document.getElementById('compareLive');
   if (!bar) return;
   const show = compareList.length > 0 && isOnCompareableResults();
@@ -5768,18 +5818,15 @@ function updateCompareBar() {
     if (count) count.textContent = compareSelectionLabel(n);
     if (limitMsg) {
       if (atLimit) {
-        limitMsg.textContent = t('compare.limit');
+        limitMsg.textContent = 'Max 3 plans — remove one to add another';
         limitMsg.hidden = false;
       } else limitMsg.hidden = true;
     }
-    const info = bar.querySelector('.compare-bar__info');
-    let chips = document.getElementById('compareBarSelected');
-    if (!chips && info) {
-      chips = document.createElement('div');
-      chips.id = 'compareBarSelected';
-      chips.className = 'compare-bar__selected';
-      info.appendChild(chips);
+    if (compareBtn) {
+      compareBtn.disabled = n < 2;
+      compareBtn.setAttribute('aria-disabled', n < 2 ? 'true' : 'false');
     }
+    const chips = document.getElementById('compareBarSelected');
     if (chips) {
       const catalog = plansForCompareProduct(compareContextProduct());
       chips.innerHTML = compareList.map((id) => {
@@ -5787,12 +5834,16 @@ function updateCompareBar() {
         const name = plan ? `${plan.insurer} — ${plan.plan}` : id;
         return `<span class="compare-bar__chip"><span class="compare-bar__chip-label">${esc(name)}</span><button type="button" class="compare-bar__chip-remove" data-action="compare-remove" data-plan-id="${esc(id)}" aria-label="Remove ${esc(name)}">×</button></span>`;
       }).join('');
+      chips.hidden = compareList.length === 0;
+      chips.closest('.compare-bar__chip-scroll')?.toggleAttribute('hidden', compareList.length === 0);
     }
+    syncCompareSelectionUI();
     announceCompareSelection(n, atLimit);
   } else {
     bar.hidden = true;
     document.body.classList.remove('compare-open');
     if (live && compareList.length === 0) live.textContent = '';
+    syncCompareSelectionUI();
   }
 }
 
@@ -6157,6 +6208,7 @@ function bindEvents() {
         else e.target.checked = false;
       } else compareList = compareList.filter(x => x !== id);
       updateCompareBar();
+      syncCompareSelectionUI();
     });
   });
 
@@ -6606,7 +6658,7 @@ const AI_MODES = [
 ];
 
 function daysUntilRenewal(iso) {
-  const today = new Date('2026-10-16');
+  const today = new Date();
   const renew = new Date(iso);
   return Math.ceil((renew - today) / (1000 * 60 * 60 * 24));
 }
@@ -6989,7 +7041,10 @@ function getAIProductCoverageGuide(product) {
     plan = termPlans[0];
     section = 'Plan card — benefit summary';
     list = [
-      `Target cover ₹${(plan.cover || plan.si || 50)}L`,
+      (() => {
+        const coverVal = plan.cover || plan.si || 50;
+        return coverVal >= 100 ? `Target cover ₹${coverVal / 100} Cr` : `Target cover ₹${coverVal}L`;
+      })(),
       'Death benefit (term — not an investment)',
       'Optional critical illness add-on (plan-dependent)',
     ];
@@ -7188,9 +7243,18 @@ function handleAIAction(action, dataset) {
     return;
   }
   if (action === 'finder-compare-top') {
-    const a = healthPlans.find(p => p.id === dataset.a) || motorPlans.find(p => p.id === dataset.a);
-    const b = healthPlans.find(p => p.id === dataset.b) || motorPlans.find(p => p.id === dataset.b);
-    if (a && b) pushBotMessage(getAICompareResult([a, b]));
+    const findPlan = (id) => healthPlans.find((p) => p.id === id)
+      || motorPlans.find((p) => p.id === id)
+      || termPlans.find((p) => p.id === id)
+      || homePlans.find((p) => p.id === id);
+    const a = findPlan(dataset.a);
+    const b = findPlan(dataset.b);
+    const refId = String(dataset.a || dataset.b || '');
+    let inferredProduct = 'health';
+    if (refId.includes('motor')) inferredProduct = 'motor';
+    else if (refId.includes('term')) inferredProduct = 'term';
+    else if (refId.includes('home')) inferredProduct = 'home';
+    if (a && b) pushBotMessage(getAICompareResult([a, b], inferredProduct));
     return;
   }
   if (action === 'compare-preset') {
@@ -7967,6 +8031,8 @@ const designCaptureApplied = Boolean(
   designCaptureQuery.screen && DESIGN_CAPTURE_SCREENS.has(designCaptureQuery.screen),
 );
 if (designCaptureApplied) {
+  document.documentElement.classList.add('design-capture');
+  document.body.classList.add('design-capture');
   suppressHistory = true;
   designCaptureOverlay = applyDesignCaptureScreen(designCaptureQuery.screen);
   suppressHistory = false;

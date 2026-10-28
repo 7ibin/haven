@@ -1,0 +1,18 @@
+{
+  "fileKey": "7HZoSj771NtrqwTyCF2UK1",
+  "fileUrl": "https://www.figma.com/design/7HZoSj771NtrqwTyCF2UK1/Haven-%E2%80%94-All-screens-(capture)",
+  "baseUrl": "http://localhost:8080",
+  "viewport": { "width": 390, "height": 844 },
+  "captureSelector": "#app",
+  "deviceScaleFactor": 1,
+  "screens": [
+    "home", "explore", "policies", "claims", "help", "signup", "cover-guide",
+    "health-1", "health-2", "health-3", "health-results", "health-addons", "health-pay",
+    "motor-1", "motor-results", "motor-addons", "motor-pay",
+    "term-1", "term-results", "term-pay",
+    "home-1", "home-results", "home-pay",
+    "success", "motor-success", "term-success", "home-success",
+    "expert-modal", "ai-panel",
+    "health-results-error", "motor-results-error", "term-results-error", "home-results-error"
+  ]
+}

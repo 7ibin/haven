@@ -1,6 +1,6 @@
 {
-  "name": "Haven — Compare & Buy Insurance",
-  "short_name": "Haven",
+  "name": "Hollow — Compare & Buy Insurance",
+  "short_name": "Hollow",
   "description": "Compare plans and buy Health, Motor, Term Life and Home insurance in India.",
   "start_url": "/",
   "scope": "/",
@@ -12,7 +12,7 @@
   "display_override": ["standalone", "browser"],
   "icons": [
     {
-      "src": "icons/haven-icon.svg",
+      "src": "icons/hollow-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

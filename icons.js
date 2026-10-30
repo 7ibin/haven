@@ -1,4 +1,4 @@
-/* Haven icon API — Material Symbols Rounded (see index.html font link). */
+/* Hollow icon API — Material Symbols Rounded (see index.html font link). */
 
 const MATERIAL_ICONS = {
   health: 'health_and_safety',
@@ -81,21 +81,21 @@ function resolveIconSize(size) {
   return ICON_SIZE[size] ?? ICON_SIZE.lg;
 }
 
-function icon(name, size = ICON_SIZE.lg, className = 'haven-icon') {
+function icon(name, size = ICON_SIZE.lg, className = 'hollow-icon') {
   const glyph = MATERIAL_ICONS[name];
   if (!glyph) {
-    console.warn(`[Haven icons] Unknown icon name: ${name}`);
+    console.warn(`[Hollow icons] Unknown icon name: ${name}`);
     return '';
   }
   const px = resolveIconSize(size);
-  const tone = ICON_OUTLINE.has(name) ? 'haven-icon--outline' : 'haven-icon--filled';
-  const extra = className.includes('haven-icon--outline') || className.includes('haven-icon--filled') ? '' : ` ${tone}`;
+  const tone = ICON_OUTLINE.has(name) ? 'hollow-icon--outline' : 'hollow-icon--filled';
+  const extra = className.includes('hollow-icon--outline') || className.includes('hollow-icon--filled') ? '' : ` ${tone}`;
   return `<span class="${className}${extra}" style="font-size:${px}px" aria-hidden="true">${glyph}</span>`;
 }
 
 function iconProduct(name, color, size = ICON_SIZE.lg) {
   const bg = PRODUCT_GRADIENTS[name] || `linear-gradient(145deg, ${color} 0%, ${color}cc 100%)`;
-  return `<span class="icon-product icon-product--${name}" style="background:${bg}">${icon(name, size, 'haven-icon haven-icon--product')}</span>`;
+  return `<span class="icon-product icon-product--${name}" style="background:${bg}">${icon(name, size, 'hollow-icon hollow-icon--product')}</span>`;
 }
 
 function iconBox(name, color, size = ICON_SIZE.lg, boxClass = 'icon-box') {
@@ -104,7 +104,7 @@ function iconBox(name, color, size = ICON_SIZE.lg, boxClass = 'icon-box') {
 }
 
 function iconBack(size = ICON_SIZE.lg) {
-  return icon('back', size, 'haven-icon haven-icon--back');
+  return icon('back', size, 'hollow-icon hollow-icon--back');
 }
 
 function successBadge() {
@@ -112,7 +112,7 @@ function successBadge() {
     <div class="success-badge__ring"></div>
     <div class="success-badge__ring success-badge__ring--delay"></div>
     <div class="success-badge__circle">
-      ${icon('check', ICON_SIZE.x2, 'haven-icon success-badge__glyph')}
+      ${icon('check', ICON_SIZE.x2, 'hollow-icon success-badge__glyph')}
     </div>
   </div>`;
 }
@@ -127,7 +127,7 @@ function hydrateShellIcons() {
     const el = document.getElementById(id);
     if (!el) return;
     const size = id === 'callExpert' ? ICON_SIZE.sm : id === 'aiSend' ? ICON_SIZE.md : ICON_SIZE.lg;
-    el.insertAdjacentHTML('afterbegin', icon(name, size, 'haven-icon haven-icon--shell'));
+    el.insertAdjacentHTML('afterbegin', icon(name, size, 'hollow-icon hollow-icon--shell'));
   });
 
   const navMap = {
@@ -142,9 +142,9 @@ function hydrateShellIcons() {
     if (!key) return;
     const slot = btn.querySelector('.bottom-nav__icon-slot');
     const target = slot || btn.querySelector('.bottom-nav__icon-wrap') || btn;
-    const existing = target.querySelector('.haven-icon, svg');
+    const existing = target.querySelector('.hollow-icon, svg');
     if (existing) existing.remove();
-    const html = icon(key, ICON_SIZE.lg, 'haven-icon haven-icon--nav');
+    const html = icon(key, ICON_SIZE.lg, 'hollow-icon hollow-icon--nav');
     if (slot) slot.innerHTML = html;
     else target.insertAdjacentHTML('afterbegin', html);
   });

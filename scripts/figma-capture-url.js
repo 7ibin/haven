@@ -1,4 +1,4 @@
-/** Build Figma html-to-design capture URL for a Haven design-capture screen. */
+/** Build Figma html-to-design capture URL for a Hollow design-capture screen. */
 const screens = require('./figma-capture-screens.json');
 
 function buildCaptureUrl(screen, captureId) {

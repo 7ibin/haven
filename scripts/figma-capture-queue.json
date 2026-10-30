@@ -1,22 +1,13 @@
 {
   "fileKey": "7HZoSj771NtrqwTyCF2UK1",
-  "sessionId": "ce58e0ad-65ee-42d9-abd5-5246412ddb7a",
+  "sessionId": "4c99c395-3cb3-49c4-b0b4-4fceff2d0240",
   "screens": {
-    "term-1": "d7603f39-ca02-4f8e-8d17-ed64aca9d3c2",
-    "term-results": "6ec5defd-122f-49a4-93a1-16b309a9a82c",
-    "term-pay": "a3379bc8-a295-4e1b-b6ba-6bda412eba31",
-    "home-1": "8c80cd1b-5f94-4480-8b45-83690c91402f",
-    "home-results": "5dd865c6-9efe-4e30-bfe9-9da13ba19a48",
-    "home-pay": "989871f1-c6aa-4ebf-aa31-ed1fddb2c57d",
-    "success": "6d368a6c-679f-4c24-a13d-a5e79f368322",
-    "motor-success": "6a403cd0-fe83-45c1-9dcc-65702105025d",
-    "term-success": "ca65e83f-f117-41a6-b7a8-90f66a25dd61",
-    "home-success": "8b251527-aaaa-447a-99ee-17a5648dc9ab",
-    "expert-modal": "ad1e5a12-1929-4a55-b6b8-c97b28f0d63a",
-    "ai-panel": "46b4f07b-7a47-4d7c-a1f3-467e84f23b3b",
-    "health-results-error": "8724b406-1525-4e75-a177-9f3ccf75e89a",
-    "motor-results-error": "2f3fc01e-144b-4dc3-9802-541b40873600",
-    "term-results-error": "e587a9b0-e773-4bcf-82ba-f08d76e75075",
-    "home-results-error": "dcaa5bc8-0e08-423f-9249-e1304bdb0422"
+    "claim-start-type": "03c45a0e-8dc4-4a2d-a9d2-fbfbd668660b",
+    "claim-start-docs": "c9782eae-ccc7-4e0f-883a-7e375e42688b",
+    "claim-start-motor": "6b3a0ebf-4ce4-455c-b677-ce7bb3f5d712",
+    "claim-start-motor-type": "35015af9-3480-420d-b041-8efeee5308e9",
+    "claim-start-motor-docs": "d00022ac-958d-4ca9-8ef0-d1a2fe918192",
+    "claim-detail-motor": "141b1dc4-f8b2-4095-9785-795f5cbc30cc",
+    "ai-panel-claim": "56742007-110b-4f33-9aea-ba955d35b141"
   }
 }

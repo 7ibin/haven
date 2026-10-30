@@ -1,6 +1,6 @@
-# Haven
+# Hollow
 
-Haven is a **mobile-first design prototype** of an India insurance aggregator: compare **Health**, **Motor**, **Term Life**, and **Home** plans in one place, with quote wizards, plan comparison, checkout, policies, claims, and an AI assistant. It is static HTML/CSS/JavaScript with no build step.
+Hollow is a **mobile-first design prototype** of an India insurance aggregator: compare **Health**, **Motor**, **Term Life**, and **Home** plans in one place, with quote wizards, plan comparison, checkout, policies, claims, and an AI assistant. It is static HTML/CSS/JavaScript with no build step.
 
 ## Run locally
 
@@ -30,7 +30,7 @@ Use the site root URL so paths like `icons/apple-touch-icon.png` and `manifest.w
 |----------|----------------------------------------|
 | Health, Motor, Term Life, Home | Travel, Pet, Commercial, Investment / ULIP |
 
-Flows include quote wizards, results (with loading / empty / error UI), compare (health), checkout, renewals, expert callback modal, Haven AI panel, Policy Doctor, and case/claim prototypes.
+Flows include quote wizards, results (with loading / empty / error UI), compare (health), checkout, renewals, expert callback modal, Hollow AI panel, Policy Doctor, and case/claim prototypes.
 
 ## Known limitations
 
@@ -48,7 +48,7 @@ Flows include quote wizards, results (with loading / empty / error UI), compare 
 | `styles.css` | Layout and themes (light / dark) |
 | `icons.js` | Icon helper (Material Symbols) |
 | `manifest.webmanifest` | Web app manifest |
-| `icons/` | `haven-icon.svg`, `apple-touch-icon.png`, `og-image.png` |
+| `icons/` | `hollow-icon.svg`, `apple-touch-icon.png`, `og-image.png` |
 | `serve.ps1` | Local dev server on port 8080 |
 
 ## Design capture (optional)

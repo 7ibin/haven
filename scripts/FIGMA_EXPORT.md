@@ -1,6 +1,6 @@
-# Haven → Figma (all screens)
+# Hollow → Figma (all screens)
 
-**Figma file:** [Haven — All screens (capture)](https://www.figma.com/design/7HZoSj771NtrqwTyCF2UK1)
+**Figma file:** [Hollow — All screens (capture)](https://www.figma.com/design/7HZoSj771NtrqwTyCF2UK1)
 
 ## Prerequisites
 
@@ -30,11 +30,11 @@ Then poll every ID in `figma-capture-progress.json` → `pending` via Figma MCP.
 
 ## Batch status
 
-**All 33 design-capture screens** are in Figma with node links in `figma-capture-progress.json` (`node-id=1-2` … `33-2`). Open the [capture file](https://www.figma.com/design/7HZoSj771NtrqwTyCF2UK1) and rename frames by screen id if you want clearer handoff labels.
+**All design-capture screens** (see `figma-capture-screens.json`) are tracked in `figma-capture-progress.json`. After-you-buy subsections include Policy Doctor (pick, summary, clause), Support cases (list, create, detail), motor help (hub, garages, roadside), network hospitals, plus policy detail and claim start/detail.
 
 ## Viewport
 
-390×844 (see `figma-capture-screens.json`). Captures use `figmaselector=#app`, `design-capture` CSS (390px shell), and **deviceScaleFactor 1** so Figma frame width matches CSS pixels.
+**390px width**, height grows with page content (min 844px). Captures use `figmaselector=#app`, `design-capture` CSS (no viewport clipping — full scroll height), and **deviceScaleFactor 1** so Figma frame width matches CSS pixels.
 
 **Re-export after width fix:** existing frames in Figma stay wrong until you capture again. Reset `completed` in `figma-capture-progress.json` (or use a new Figma page), generate new capture IDs, run `node scripts/run-figma-capture-batch.mjs`, then poll.
 

@@ -1,4 +1,4 @@
-# Haven → Figma (Home screen)
+# Hollow → Figma (Home screen)
 
 Captured from `http://localhost:8080/` (Home tab, logged-in demo state).
 

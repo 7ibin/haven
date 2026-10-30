@@ -3,7 +3,7 @@ $root = $PSScriptRoot
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$port/")
 $listener.Start()
-Write-Host "Haven is running at http://localhost:$port"
+Write-Host "Hollow is running at http://localhost:$port"
 Write-Host "Press Ctrl+C to stop."
 
 while ($listener.IsListening) {

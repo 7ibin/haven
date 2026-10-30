@@ -1,5 +1,5 @@
 {
-  "$description": "Haven design tokens — import into Figma via Tokens Studio plugin (Variables)",
+  "$description": "Hollow design tokens — import into Figma via Tokens Studio plugin (Variables)",
   "color": {
     "primary": { "value": "#0d4f8b", "type": "color" },
     "primary-light": { "value": "#1565b8", "type": "color" },

@@ -1,4 +1,4 @@
-/* Haven — India insurance aggregator */
+/* Hollow — India insurance aggregator */
 
 /** Customer helpline — change this before launch */
 const PHONE_NUMBER = '1800-123-4567';
@@ -37,7 +37,7 @@ function quoteContinueBtn(label, sub = '', action = 'wizard-next', extraAttrs = 
 const i18n = {
   en: {
     'nav.home': 'Home', 'nav.explore': 'Explore', 'nav.policies': 'Policies', 'nav.claims': 'Claims', 'nav.help': 'Help',
-    'ai.title': 'Ask Haven',
+    'ai.title': 'Ask Hollow',
     'ai.subtitle': 'Find the right policy for you',
     'ai.placeholder': 'e.g. health insurance for family...',
     'ai.searchPrompt': 'Ask AI — find policy, compare, explain, claim, renew',
@@ -122,7 +122,7 @@ const i18n = {
     'expert.timeMorning': 'Morning (9am–12pm)',
     'expert.timeAfternoon': 'Afternoon (12pm–5pm)',
     'expert.timeEvening': 'Evening (5pm–8pm)',
-    'expert.consent': 'I agree to be called once on this number by a Haven expert. No spam, no resale of my number.',
+    'expert.consent': 'I agree to be called once on this number by a Hollow expert. No spam, no resale of my number.',
     'expert.nameRequired': 'Please enter your name',
     'expert.phoneRequired': 'Please enter your mobile number',
     'expert.phoneInvalid': 'Enter a valid 10-digit Indian mobile number',
@@ -163,7 +163,7 @@ const i18n = {
     'footer.terms': 'Terms of use',
     'footer.helplineLabel': '24×7 helpline',
     'footer.grievance': 'Grievance',
-    'footer.copyright': '© 2026 Haven Insurance Services Pvt. Ltd. · GST as applicable',
+    'footer.copyright': '© 2026 Hollow Insurance Services Pvt. Ltd. · GST as applicable',
     'results.loading': 'Finding plans...',
     'results.error.health': 'We could not load health plans right now.',
     'results.error.motor': 'We could not load motor quotes right now.',
@@ -171,10 +171,10 @@ const i18n = {
     'results.error.home': 'We could not load home plans right now.',
     'results.retry': 'Try again',
     'footer.disclaimer': 'Insurance is the subject matter of solicitation.',
-    'footer.copyrightShort': '© 2026 Haven Insurance Services Pvt. Ltd.',
+    'footer.copyrightShort': '© 2026 Hollow Insurance Services Pvt. Ltd.',
     'home.heroTitle': 'Compare insurance quotes',
     'home.heroSub': 'Health, motor, term life, and home in one app',
-    'home.whyTitle': 'Why people use Haven',
+    'home.whyTitle': 'Why people use Hollow',
     'home.why1.title': 'Compare in one place',
     'home.why1.desc': 'See plan options for four products without jumping between sites.',
     'home.why2.title': 'Plain-language guidance',
@@ -228,8 +228,8 @@ const i18n = {
     'help.helpline': '24×7 Helpline',
     'help.igms': 'Insurer grievance portal (IGMS)',
     'a11y.skip': 'Skip to main content',
-    'a11y.splash': 'Welcome to Haven',
-    'a11y.home': 'Haven home',
+    'a11y.splash': 'Welcome to Hollow',
+    'a11y.home': 'Hollow home',
     'a11y.language': 'Language',
     'a11y.aiOpen': 'Open AI assistant',
     'a11y.close': 'Close',
@@ -401,7 +401,7 @@ let doctorLoading = false;
 const CASE_STATUSES = ['Open', 'In Progress', 'Waiting for Customer', 'Waiting for Insurer', 'Resolved'];
 
 const coupons = {
-  HAVEN500: { label: 'Flat ₹500 off', discount: 500, desc: 'On all health policies' },
+  HOLLOW500: { label: 'Flat ₹500 off', discount: 500, desc: 'On all health policies' },
   FIRSTBUY: { label: '10% off first purchase', discountPct: 10, max: 2000, desc: 'New customers only' },
   HEALTH10: { label: '₹1,000 health discount', discount: 1000, desc: 'Family floater plans' },
 };
@@ -991,7 +991,7 @@ let supportCases = [
     subject: 'Correct nominee name on policy',
     status: 'In Progress',
     created: '10 Sep 2026',
-    nextAction: 'Haven verifying your signed endorsement form',
+    nextAction: 'Hollow verifying your signed endorsement form',
     expectedUpdate: '17 Sep 2026',
     escalated: false,
     timeline: [
@@ -1002,7 +1002,7 @@ let supportCases = [
     ],
     messages: [
       { from: 'you', at: '10 Sep 2026, 10:20', text: 'Nominee name shows "Priya S" but should be "Priya Sharma".' },
-      { from: 'haven', at: '10 Sep 2026, 11:05', text: 'Thanks. Please upload Aadhaar and signed endorsement form.' },
+      { from: 'hollow', at: '10 Sep 2026, 11:05', text: 'Thanks. Please upload Aadhaar and signed endorsement form.' },
       { from: 'you', at: '11 Sep 2026, 09:15', text: 'Uploaded Aadhaar.' },
     ],
     attachments: ['aadhaar.pdf'],
@@ -1019,11 +1019,11 @@ let supportCases = [
     escalated: false,
     timeline: [
       { at: '5 Sep 2026', title: 'Case opened', desc: 'Receipt missing after renewal payment.', done: true },
-      { at: '6 Sep 2026', title: 'Haven requested info', desc: 'Need UTR to trace payment.', done: true, active: true },
+      { at: '6 Sep 2026', title: 'Hollow requested info', desc: 'Need UTR to trace payment.', done: true, active: true },
     ],
     messages: [
       { from: 'you', at: '5 Sep 2026, 18:00', text: 'Paid motor renewal but no email receipt.' },
-      { from: 'haven', at: '6 Sep 2026, 10:30', text: 'Please reply with UTR or last 4 digits of card used. We will trace the payment with your bank using the details you provide.' },
+      { from: 'hollow', at: '6 Sep 2026, 10:30', text: 'Please reply with UTR or last 4 digits of card used. We will trace the payment with your bank using the details you provide.' },
     ],
     attachments: [],
   },
@@ -1376,11 +1376,11 @@ function renderPlanDetailsHeader(plan, product, { totalPremium, metaHtml = '' } 
 function renderInsuranceFooter() {
   const tel = PHONE_NUMBER.replace(/\D/g, '');
   return `<footer class="home-footer home-footer--v2 site-footer site-footer--mini" aria-label="Site footer">
-    <div class="home-footer__logo">Haven</div>
+    <div class="home-footer__logo">Hollow</div>
     <p class="site-footer__reach">
       <a href="tel:${tel}">${PHONE_NUMBER}</a>
       <span class="site-footer__reach-sep" aria-hidden="true">·</span>
-      <a href="mailto:grievance@haven.in">grievance@haven.in</a>
+      <a href="mailto:grievance@hollow.in">grievance@hollow.in</a>
     </p>
     <p class="site-footer__fine">${t('footer.disclaimer')} ${t('footer.copyrightShort')}</p>
   </footer>`;
@@ -1445,7 +1445,7 @@ function renderProtectPicker() {
     <div class="protect-picker__title">What do you want to protect?</div>
     <div class="protect-picker__chips">${items.map(i => `
       <button type="button" class="protect-picker__chip" data-action="finder-start" data-finder-protect="${i.finder}">
-        ${icon(i.icon, ICON_SIZE.sm, 'haven-icon haven-icon--inline')} ${i.label}
+        ${icon(i.icon, ICON_SIZE.sm, 'hollow-icon hollow-icon--inline')} ${i.label}
       </button>`).join('')}
     </div>
   </div>`;
@@ -1476,7 +1476,7 @@ function renderConfusionBusters(product) {
     <div class="confusion-busters__list">${list.map((b, i) => `
       <button type="button" class="confusion-buster ${openExplainId === `${product}-${i}` ? 'open' : ''}" data-explain="${product}-${i}">
         <span>${b.q}</span>
-        ${icon('chevronDown', ICON_SIZE.md, 'haven-icon haven-icon--chevron')}
+        ${icon('chevronDown', ICON_SIZE.md, 'hollow-icon hollow-icon--chevron')}
       </button>
       ${openExplainId === `${product}-${i}` ? `<div class="confusion-buster__answer">${b.a}</div>` : ''}
     `).join('')}</div>
@@ -1527,13 +1527,13 @@ function renderCoverageClarity(plan, product) {
         <div class="coverage-clarity__head">✗ Not covered</div>
         <ul>${notCovered.map(c => `<li>${c}</li>`).join('')}</ul>
       </div>`}
-    <p class="coverage-clarity__note">Full terms in policy document. Questions? Ask Haven AI.</p>
+    <p class="coverage-clarity__note">Full terms in policy document. Questions? Ask Hollow AI.</p>
   </div>`;
 }
 
 function loadAuthUser() {
   try {
-    const raw = localStorage.getItem('havenUser');
+    const raw = localStorage.getItem('hollowUser');
     if (!raw) return null;
     const user = JSON.parse(raw);
     if (!user || typeof user !== 'object') return null;
@@ -1554,7 +1554,7 @@ function saveAuthUser(user) {
   if (merged.name != null) merged.name = String(merged.name);
   if (merged.phone != null) merged.phone = String(merged.phone);
   if (merged.email != null) merged.email = String(merged.email).trim().toLowerCase();
-  localStorage.setItem('havenUser', JSON.stringify(merged));
+  localStorage.setItem('hollowUser', JSON.stringify(merged));
   authUser = merged;
   updateAuthHeader();
 }
@@ -1577,7 +1577,7 @@ function saveAccountEmail() {
 
 function loadAppSettings() {
   try {
-    const raw = localStorage.getItem('havenSettings');
+    const raw = localStorage.getItem('hollowSettings');
     const parsed = raw ? JSON.parse(raw) : {};
     return { ...DEFAULT_APP_SETTINGS, ...parsed };
   } catch {
@@ -1587,7 +1587,7 @@ function loadAppSettings() {
 
 function saveAppSettings() {
   appSettings.policyReminders = { ...renewalAlerts };
-  localStorage.setItem('havenSettings', JSON.stringify(appSettings));
+  localStorage.setItem('hollowSettings', JSON.stringify(appSettings));
 }
 
 function applyAppSettings() {
@@ -1611,7 +1611,7 @@ function toggleAppSetting(key) {
 }
 
 function logout() {
-  localStorage.removeItem('havenUser');
+  localStorage.removeItem('hollowUser');
   authUser = null;
   signupDraft = { name: '', phone: '', email: '', pendingOtp: null, sentAt: 0, error: '', tab: 'login', channel: 'sms' };
   accountEmailNotice = '';
@@ -1639,7 +1639,7 @@ function updateAuthHeader() {
   } else {
     if (avatar) {
       avatar.textContent = '';
-      avatar.innerHTML = typeof icon === 'function' ? icon('user', ICON_SIZE.md, 'haven-icon') : '';
+      avatar.innerHTML = typeof icon === 'function' ? icon('user', ICON_SIZE.md, 'hollow-icon') : '';
     }
     if (nameEl) nameEl.textContent = t('auth.login');
     btn.classList.remove('header-chip--logged-in');
@@ -1794,10 +1794,10 @@ function signupShell(backAction, title, bodyHtml, footerHtml = '', variant = '')
     <div class="signup-screen${done ? ' signup-screen--done' : ''}">
       <div class="signup-screen__hero${done ? ' signup-screen__hero--compact' : ''}">
         <button type="button" class="signup-screen__back" data-action="${backAction}" aria-label="Back">${iconBack()}</button>
-        <div class="signup-screen__logo">Haven</div>
+        <div class="signup-screen__logo">Hollow</div>
         ${done ? '' : `<div class="signup-screen__illus" aria-hidden="true">
           <span class="signup-screen__illus-ring"></span>
-          <span class="signup-screen__illus-icon">${icon('shield', ICON_SIZE.xl, 'haven-icon')}</span>
+          <span class="signup-screen__illus-icon">${icon('shield', ICON_SIZE.xl, 'hollow-icon')}</span>
         </div>`}
         ${title ? `<h1 class="signup-screen__title">${title}</h1>` : ''}
       </div>
@@ -1809,17 +1809,17 @@ function signupShell(backAction, title, bodyHtml, footerHtml = '', variant = '')
 }
 
 function signupTrustStrip() {
-  return `<div class="signup-trust-strip" role="list" aria-label="Why Haven is safe">
+  return `<div class="signup-trust-strip" role="list" aria-label="Why Hollow is safe">
     <div class="signup-trust-item" role="listitem">
-      <span class="signup-trust-item__icon" aria-hidden="true">${icon('compare', ICON_SIZE.md, 'haven-icon')}</span>
+      <span class="signup-trust-item__icon" aria-hidden="true">${icon('compare', ICON_SIZE.md, 'hollow-icon')}</span>
       <span class="signup-trust-item__label">${t('signup.trust1')}</span>
     </div>
     <div class="signup-trust-item" role="listitem">
-      <span class="signup-trust-item__icon" aria-hidden="true">${icon('lock', ICON_SIZE.md, 'haven-icon')}</span>
+      <span class="signup-trust-item__icon" aria-hidden="true">${icon('lock', ICON_SIZE.md, 'hollow-icon')}</span>
       <span class="signup-trust-item__label">${t('signup.trust2')}</span>
     </div>
     <div class="signup-trust-item" role="listitem">
-      <span class="signup-trust-item__icon" aria-hidden="true">${icon('advisor', ICON_SIZE.md, 'haven-icon')}</span>
+      <span class="signup-trust-item__icon" aria-hidden="true">${icon('advisor', ICON_SIZE.md, 'hollow-icon')}</span>
       <span class="signup-trust-item__label">${t('signup.trust3')}</span>
     </div>
   </div>`;
@@ -1841,7 +1841,7 @@ function applyI18n() {
   });
   syncShellChrome();
   refreshExpertSuccessCopy();
-  document.querySelectorAll('select.haven-select__native').forEach(refreshHavenSelectOptions);
+  document.querySelectorAll('select.hollow-select__native').forEach(refreshHollowSelectOptions);
 }
 
 function getOpenOverlay() {
@@ -1864,6 +1864,19 @@ function applyDesignCaptureTheme(theme) {
   if (theme === 'dark' || theme === 'light') {
     document.documentElement.setAttribute('data-theme', theme);
   }
+}
+
+/** Expand scroll regions so Figma html-to-design captures full page height, not one viewport slice. */
+function prepareDesignCaptureForFigma() {
+  if (!document.body.classList.contains('design-capture')) return;
+  const main = document.getElementById('mainContent');
+  if (main) main.scrollTop = 0;
+  document.querySelectorAll(
+    '#app .wizard-body, #app .ai-panel__messages, #app .modal__content, #app .hollow-select__menu',
+  ).forEach((el) => {
+    el.style.overflow = 'visible';
+    el.style.maxHeight = 'none';
+  });
 }
 
 /** Remove design-capture query params so refresh opens normal app state (not stuck on ?screen=). */
@@ -2010,6 +2023,57 @@ function openSignupForCapture() {
   document.body.classList.add('wizard-mode', 'signup-mode');
 }
 
+function openSignupOtpForCapture() {
+  signupDraft = {
+    name: '',
+    phone: '9876543210',
+    email: '',
+    pendingOtp: SIGNUP_DEMO_OTP,
+    sentAt: Date.now() - 8000,
+    error: '',
+    tab: 'login',
+    channel: 'sms',
+  };
+  wizardState = { type: 'signup', step: 1 };
+  document.body.classList.add('wizard-mode', 'signup-mode');
+}
+
+function openSignupProfileForCapture() {
+  signupDraft = {
+    name: '',
+    phone: '9876543210',
+    email: '',
+    pendingOtp: SIGNUP_DEMO_OTP,
+    sentAt: 0,
+    error: '',
+    tab: 'login',
+    channel: 'sms',
+  };
+  wizardState = { type: 'signup', step: 2 };
+  document.body.classList.add('wizard-mode', 'signup-mode');
+}
+
+function openSignupSuccessForCapture() {
+  saveAuthUser({
+    name: 'Priya Sharma',
+    phone: '9876543210',
+    email: 'priya@email.com',
+    verified: true,
+  });
+  signupDraft = {
+    name: 'Priya Sharma',
+    phone: '9876543210',
+    email: 'priya@email.com',
+    pendingOtp: null,
+    sentAt: 0,
+    error: '',
+    tab: 'login',
+    channel: 'sms',
+  };
+  wizardState = { type: 'signup', step: 3 };
+  document.body.classList.add('wizard-mode', 'signup-mode');
+}
+
 function openCoverGuideForCapture() {
   wizardState = {
     type: 'cover-guide',
@@ -2022,8 +2086,34 @@ function openCoverGuideForCapture() {
   document.body.classList.remove('signup-mode');
 }
 
+function seedClaimStartForCapture({ step = 0, policyId = 'h1', claimType, checked = {}, formError = '' } = {}) {
+  const pol = getPolicyById(policyId) || policies.find((p) => p.id === policyId) || policies[0];
+  const pid = pol?.id || policyId || 'h1';
+  const product = pol?.product === 'motor' ? 'motor' : 'health';
+  const defaultType = claimType || (product === 'motor' ? 'own_damage' : 'cashless');
+  claimStartState = {
+    step,
+    policyId: pid,
+    claimType: defaultType,
+    checked: { ...checked },
+    formError,
+  };
+  serviceContext = { policyId: null, claimId: null, caseId: null };
+  currentView = 'claim-start';
+  wizardState = null;
+  syncBottomNav('claims');
+}
+
 const DESIGN_CAPTURE_SCREENS = new Set([
-  'home', 'explore', 'policies', 'claims', 'help', 'signup', 'cover-guide',
+  'home', 'explore', 'policies', 'claims', 'help', 'renew',
+  'policy-doctor', 'policy-doctor-pick', 'policy-doctor-clause',
+  'cases', 'case-create', 'case-detail',
+  'help-motor', 'help-garage', 'help-roadside', 'help-network',
+  'policy-detail',
+  'claim-start', 'claim-start-type', 'claim-start-docs',
+  'claim-start-motor', 'claim-start-motor-type', 'claim-start-motor-docs',
+  'claim-detail', 'claim-detail-motor', 'ai-panel-claim',
+  'signup', 'signup-otp', 'signup-profile', 'signup-success', 'cover-guide',
   'health-1', 'health-2', 'health-3', 'health-results', 'health-addons', 'health-pay',
   'motor-1', 'motor-results', 'motor-addons', 'motor-pay',
   'term-1', 'term-results', 'term-pay',
@@ -2032,7 +2122,7 @@ const DESIGN_CAPTURE_SCREENS = new Set([
   'health-results-error', 'motor-results-error', 'term-results-error', 'home-results-error',
 ]);
 
-/** @returns {'expert'|'ai'|null} overlay to open after first render */
+/** @returns {'expert'|'ai'|'ai-claim'|null} overlay to open after first render */
 function applyDesignCaptureScreen(screen) {
   if (!DESIGN_CAPTURE_SCREENS.has(screen)) return null;
 
@@ -2054,8 +2144,161 @@ function applyDesignCaptureScreen(screen) {
   }
 
   switch (screen) {
+    case 'renew':
+      currentView = 'renew';
+      syncBottomNav('renew');
+      return null;
+    case 'policy-doctor':
+      doctorQuestion = '';
+      doctorAnswer = '';
+      policyDoctorState = {
+        policyId: 'h1',
+        view: 'summary',
+        clauseKey: null,
+        uploadLabel: null,
+        uploadLoading: false,
+      };
+      currentView = 'policy-doctor';
+      wizardState = null;
+      syncBottomNav('policy-doctor');
+      return null;
+    case 'policy-doctor-pick':
+      doctorQuestion = '';
+      doctorAnswer = '';
+      policyDoctorState = {
+        policyId: null,
+        view: 'select',
+        clauseKey: null,
+        uploadLabel: null,
+        uploadLoading: false,
+      };
+      currentView = 'policy-doctor';
+      wizardState = null;
+      syncBottomNav('policy-doctor');
+      return null;
+    case 'policy-doctor-clause':
+      doctorQuestion = '';
+      doctorAnswer = '';
+      policyDoctorState = {
+        policyId: 'h1',
+        view: 'clause',
+        clauseKey: 'waiting',
+        uploadLabel: null,
+        uploadLoading: false,
+      };
+      currentView = 'policy-doctor';
+      wizardState = null;
+      syncBottomNav('policy-doctor');
+      return null;
+    case 'cases':
+      currentView = 'cases';
+      wizardState = null;
+      serviceContext.caseId = null;
+      serviceContext.claimId = null;
+      syncBottomNav('cases');
+      return null;
+    case 'case-create':
+      caseFormError = '';
+      caseCreateDraft = {
+        policyId: 'h1',
+        category: 'documents',
+        subject: 'Correct nominee name on policy',
+        description: 'Nominee shows as Priya S but should be Priya Sharma on the schedule.',
+      };
+      serviceContext = { policyId: null, claimId: null, caseId: null };
+      currentView = 'case-create';
+      wizardState = null;
+      syncBottomNav('cases');
+      return null;
+    case 'case-detail':
+      serviceContext = { policyId: null, claimId: null, caseId: 'CASE-2026-1042' };
+      currentView = 'case-detail';
+      wizardState = null;
+      syncBottomNav('cases');
+      return null;
+    case 'help-motor':
+      currentView = 'help';
+      wizardState = { helpSection: 'motor' };
+      syncBottomNav('help');
+      return null;
+    case 'help-garage':
+      currentView = 'help';
+      wizardState = { helpSection: 'garage' };
+      syncBottomNav('help');
+      return null;
+    case 'help-roadside':
+      currentView = 'help';
+      wizardState = { helpSection: 'roadside' };
+      syncBottomNav('help');
+      return null;
+    case 'help-network':
+      currentView = 'help';
+      wizardState = { helpSection: 'network' };
+      syncBottomNav('help');
+      return null;
+    case 'policy-detail':
+      serviceContext = { policyId: 'h1', claimId: null, caseId: null };
+      currentView = 'policy-detail';
+      wizardState = null;
+      syncBottomNav('policies');
+      return null;
+    case 'claim-start':
+      seedClaimStartForCapture({ step: 0, policyId: 'h1', claimType: 'cashless' });
+      return null;
+    case 'claim-start-type':
+      seedClaimStartForCapture({ step: 1, policyId: 'h1', claimType: 'cashless' });
+      return null;
+    case 'claim-start-docs':
+      seedClaimStartForCapture({
+        step: 2,
+        policyId: 'h1',
+        claimType: 'cashless',
+        checked: { hc1: true, hc2: true, hc3: true },
+      });
+      return null;
+    case 'claim-start-motor':
+      seedClaimStartForCapture({ step: 0, policyId: 'm1', claimType: 'own_damage' });
+      return null;
+    case 'claim-start-motor-type':
+      seedClaimStartForCapture({ step: 1, policyId: 'm1', claimType: 'own_damage' });
+      return null;
+    case 'claim-start-motor-docs':
+      seedClaimStartForCapture({
+        step: 2,
+        policyId: 'm1',
+        claimType: 'own_damage',
+        checked: { mc1: true, mc3: true, mc4: true },
+      });
+      return null;
+    case 'claim-detail':
+      serviceContext = { policyId: null, claimId: 'c1', caseId: null };
+      currentView = 'claim-detail';
+      wizardState = null;
+      syncBottomNav('claims');
+      return null;
+    case 'claim-detail-motor':
+      serviceContext = { policyId: null, claimId: 'c2', caseId: null };
+      currentView = 'claim-detail';
+      wizardState = null;
+      syncBottomNav('claims');
+      return null;
+    case 'ai-panel-claim':
+      hospitalSearchQuery = '';
+      currentView = 'claims';
+      wizardState = null;
+      syncBottomNav('claims');
+      return 'ai-claim';
     case 'signup':
       openSignupForCapture();
+      return null;
+    case 'signup-otp':
+      openSignupOtpForCapture();
+      return null;
+    case 'signup-profile':
+      openSignupProfileForCapture();
+      return null;
+    case 'signup-success':
+      openSignupSuccessForCapture();
       return null;
     case 'cover-guide':
       openCoverGuideForCapture();
@@ -2251,7 +2494,7 @@ function renderRenewalBanner() {
   if (!p) return '';
   const days = daysUntilRenewal(p.renewalISO);
   return `<div class="renew-banner" role="status">
-    <span class="renew-banner__icon">${icon('renew', ICON_SIZE.md, 'haven-icon')}</span>
+    <span class="renew-banner__icon">${icon('renew', ICON_SIZE.md, 'hollow-icon')}</span>
     <div class="renew-banner__text">
       <strong>Renewal</strong> · ${p.insurer} · ${p.policyNo}
       <span>${`Expires ${p.renewal}`}${days <= 30 ? ` · ${days} days left` : ''}</span>
@@ -2305,7 +2548,7 @@ function renderRenewals() {
         </div>
         ${renewLookupError ? `<p class="field-error" role="alert">${esc(renewLookupError)}</p>` : ''}
       </div>
-      <p class="renew-page__tip">${icon('lock', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} No auto-debit — you pay only after you confirm</p>
+      <p class="renew-page__tip">${icon('lock', ICON_SIZE.sm, 'hollow-icon hollow-icon--inline')} No auto-debit — you pay only after you confirm</p>
     </div>
     </div>`;
 }
@@ -2492,11 +2735,11 @@ function renderCoverGuideWizard() {
         <p class="cover-guide__pick-label">${t('guide.pick')}</p>
         <div class="cover-guide__pick-grid">
           <button type="button" class="cover-guide__pick" data-action="cover-guide-start" data-guide-product="health">
-            ${icon('health', ICON_SIZE.xl, 'haven-icon')}
+            ${icon('health', ICON_SIZE.xl, 'hollow-icon')}
             <span>${t('guide.health')}</span>
           </button>
           <button type="button" class="cover-guide__pick" data-action="cover-guide-start" data-guide-product="term">
-            ${icon('term', ICON_SIZE.xl, 'haven-icon')}
+            ${icon('term', ICON_SIZE.xl, 'hollow-icon')}
             <span>${t('guide.term')}</span>
           </button>
         </div>
@@ -2834,7 +3077,7 @@ function renderProductResults(product) {
     ${renderPlanSortRow(product, product === 'home' ? `${plans.length} plans` : `${summary} · ${plans.length} plans`)}
     <div style="padding:0 1rem 0.5rem">${renderJTBDSteps('compare')}</div>
     <div class="results-count">Compare · Understand with AI · Then buy</div>
-    <div style="padding:0 1rem 0.5rem"><button type="button" class="btn btn--ghost btn--sm btn--block" data-action="open-ai" data-ai-mode="compare">${icon('sparkles', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} Explain plan differences with AI</button></div>
+    <div style="padding:0 1rem 0.5rem"><button type="button" class="btn btn--ghost btn--sm btn--block" data-action="open-ai" data-ai-mode="compare">${icon('sparkles', ICON_SIZE.sm, 'hollow-icon hollow-icon--inline')} Explain plan differences with AI</button></div>
     <div style="padding:0 1rem">${renderConfusionBusters(product)}</div>
     ${renderResultsPlanSection(product, plans, (p) => renderProductPlanCard(p, product))}`;
 }
@@ -3220,7 +3463,7 @@ function createSupportCase() {
     subject,
     status: 'Open',
     created: now,
-    nextAction: 'Haven team will respond within 24 hours',
+    nextAction: 'Hollow team will respond within 24 hours',
     expectedUpdate: '17 Sep 2026',
     escalated: false,
     timeline: [{ at: now, title: 'Case opened', desc: description.slice(0, 120), done: true, active: true }],
@@ -3238,7 +3481,7 @@ function escalateCase(caseId) {
   c.escalated = true;
   c.status = 'In Progress';
   c.timeline.push({ at: '16 Sep 2026', title: 'Escalated', desc: 'Priority review requested.', done: true, active: true });
-  c.messages.push({ from: 'haven', at: '16 Sep 2026, 12:15', text: 'Your case has been marked escalated in the app. A specialist would contact you per insurer SLA.' });
+  c.messages.push({ from: 'hollow', at: '16 Sep 2026, 12:15', text: 'Your case has been marked escalated in the app. A specialist would contact you per insurer SLA.' });
   c.nextAction = 'Specialist review within 48 hours';
   render();
 }
@@ -3258,8 +3501,8 @@ function toggleClaimDoc(claimId, docId) {
   if (!doc) return;
   doc.done = !doc.done;
   if (doc.done && claim.nextOwner === 'you' && /upload|document/i.test(claim.nextAction)) {
-    claim.nextAction = 'Haven will verify uploaded documents';
-    claim.nextOwner = 'haven';
+    claim.nextAction = 'Hollow will verify uploaded documents';
+    claim.nextOwner = 'hollow';
     claim.expectedUpdate = '19 Sep 2026';
   }
   render();
@@ -3324,7 +3567,7 @@ function renderServiceAlertRow(it) {
       </span>
       <span class="service-alert__meta">${esc(it.meta)}</span>
     </span>
-    ${icon('chevronRight', ICON_SIZE.md, 'haven-icon service-alert__chev')}
+    ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon service-alert__chev')}
   </button>`;
 }
 
@@ -3397,9 +3640,9 @@ function renderPolicyDetail() {
       <div class="policy-card__meta">Policy: ${p.policyNo}</div>
     </div>
     <div class="policy-detail__actions">
-      <button type="button" class="btn btn--primary btn--block" data-action="open-policy-doctor" data-policy="${p.id}">${icon('doctor', ICON_SIZE.md, 'haven-icon haven-icon--inline')} Policy Doctor</button>
-      <button type="button" class="btn btn--secondary btn--block" data-action="open-claim-detail" data-claim="${relatedClaims[0]?.id || ''}" ${!relatedClaims[0] ? 'disabled' : ''}>${icon('claim', ICON_SIZE.md, 'haven-icon haven-icon--inline')} Track claim</button>
-      <button type="button" class="btn btn--ghost btn--block" data-action="open-case-create" data-policy="${p.id}">${icon('grievance', ICON_SIZE.md, 'haven-icon haven-icon--inline')} Support case</button>
+      <button type="button" class="btn btn--primary btn--block" data-action="open-policy-doctor" data-policy="${p.id}">${icon('doctor', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} Policy Doctor</button>
+      <button type="button" class="btn btn--secondary btn--block" data-action="open-claim-detail" data-claim="${relatedClaims[0]?.id || ''}" ${!relatedClaims[0] ? 'disabled' : ''}>${icon('claim', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} Track claim</button>
+      <button type="button" class="btn btn--ghost btn--block" data-action="open-case-create" data-policy="${p.id}">${icon('grievance', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} Support case</button>
     </div>
     <h2>Coverage (summary)</h2>
     <ul class="bullet-list">${(p.coverage || []).map((c) => `<li>${c}</li>`).join('')}</ul>
@@ -3436,6 +3679,44 @@ function renderDoctorSectionCard(title, subtitle, innerHtml, variant = '') {
   </section>`;
 }
 
+function renderDoctorPolicyPick() {
+  const policyCards = policies.map((p) => {
+    const productIcon = p.product === 'motor' ? 'motor' : p.product === 'health' ? 'health' : 'policy';
+    return `<button type="button" class="doctor-pick-card" data-action="doctor-pick-policy" data-policy="${p.id}">
+      <span class="doctor-pick-card__icon doctor-pick-card__icon--${p.product || 'health'}" aria-hidden="true">${icon(productIcon, ICON_SIZE.lg)}</span>
+      <span class="doctor-pick-card__body">
+        <span class="doctor-pick-card__insurer">${esc(p.insurer)}</span>
+        <span class="doctor-pick-card__name">${esc(p.name)}</span>
+        <span class="doctor-pick-card__meta">${esc(p.policyNo)}</span>
+      </span>
+      ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon doctor-pick-card__chev')}
+    </button>`;
+  }).join('');
+
+  return `<div class="doctor-pick">
+    <div class="doctor-hero doctor-pick__hero">
+      <p class="doctor-hero__eyebrow">Policy Doctor</p>
+      <h2 class="doctor-hero__title">Understand your policy in simple language</h2>
+      <p class="doctor-hero__lead">Pick a policy from Hollow or upload your schedule PDF—we’ll explain coverage, exclusions, and waiting periods without the jargon.</p>
+    </div>
+    ${renderPrototypeBanner('No live AI or OCR. Sample data only.')}
+    <section class="doctor-pick__section" aria-labelledby="doctorPickPolicies">
+      <h3 class="doctor-pick__heading" id="doctorPickPolicies">Your policies</h3>
+      <div class="doctor-pick-list">${policyCards}</div>
+    </section>
+    <section class="doctor-pick__section" aria-labelledby="doctorPickUpload">
+      <h3 class="doctor-pick__heading" id="doctorPickUpload">Or upload a document</h3>
+      <label class="doctor-upload">
+        <input type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-action="doctor-upload" hidden>
+        <span class="doctor-upload__icon" aria-hidden="true">${icon('file', ICON_SIZE.x2)}</span>
+        <span class="doctor-upload__title">Choose PDF or photo</span>
+        <span class="doctor-upload__hint">Policy schedule, certificate, or renewal notice · Max 10 MB</span>
+      </label>
+      ${policyDoctorState.uploadLoading ? `<p class="doctor-upload__status" role="status">Analyzing your document…</p>` : ''}
+    </section>
+  </div>`;
+}
+
 function renderPolicyDoctor() {
   if (policyDoctorState.view === 'clause' && policyDoctorState.clauseKey) {
     const pid = policyDoctorState.policyId || 'h1';
@@ -3456,20 +3737,7 @@ function renderPolicyDoctor() {
   }
 
   if (policyDoctorState.view === 'select' || !policyDoctorState.policyId) {
-    return renderPageShell('Policy Doctor', `
-      <p class="subtitle">Understand your policy in simple language</p>
-      ${renderPrototypeBanner('No live AI or OCR. Sample data only.')}
-      <h2>Select a policy</h2>
-      ${policies.map((p) => `<button type="button" class="card card--interactive link-card" data-action="doctor-pick-policy" data-policy="${p.id}">
-        <strong>${p.insurer}</strong> · ${p.name}<br><span class="policy-card__meta">${p.policyNo}</span>
-      </button>`).join('')}
-      <h2 style="margin-top:1.25rem">Or upload a document</h2>
-      <label class="upload-zone">
-        <input type="file" accept=".pdf,.jpg,.png" data-action="doctor-upload" hidden>
-        <span class="upload-zone__inner">${icon('file', ICON_SIZE.xl)}<br>Choose PDF or JPG</span>
-      </label>
-      ${policyDoctorState.uploadLoading ? `<p class="subtitle" role="status">Analyzing your document…</p>` : ''}
-    `, { bodyClass: 'policy-doctor' });
+    return renderPageShell('Policy Doctor', renderDoctorPolicyPick(), { bodyClass: 'policy-doctor policy-doctor--pick' });
   }
 
   const pid = policyDoctorState.policyId;
@@ -3528,24 +3796,50 @@ function renderPolicyDoctor() {
 
 function renderCasesList() {
   const list = supportCases;
-  const empty = !list.length ? `<div class="empty-state"><p>No support cases yet</p></div>` : '';
+  const caseCards = list.map((c) => {
+    const pol = getPolicyById(c.policyId);
+    const product = pol?.product || 'health';
+    const productIcon = product === 'motor' ? 'motor' : product === 'health' ? 'health' : 'policy';
+    const policyLine = pol ? `${pol.insurer} · ${pol.name}` : 'Linked policy';
+    return `<button type="button" class="case-pick-card" data-action="open-case-detail" data-case="${c.id}">
+      <span class="case-pick-card__icon doctor-pick-card__icon doctor-pick-card__icon--${product}" aria-hidden="true">${icon(productIcon, ICON_SIZE.lg)}</span>
+      <span class="case-pick-card__body">
+        <span class="case-pick-card__top">
+          <span class="case-pick-card__id">${esc(c.id)}</span>
+          <span class="status-chip case-pick-card__status ${statusChipClass(c.status)}">${esc(c.status)}</span>
+        </span>
+        <span class="case-pick-card__title">${esc(c.subject)}</span>
+        <span class="case-pick-card__meta">${esc(policyLine)} · ${esc(c.created)}</span>
+        <span class="case-pick-card__next"><span class="case-pick-card__next-kicker">Next step</span>${esc(c.nextAction)}</span>
+      </span>
+      ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon case-pick-card__chev')}
+    </button>`;
+  }).join('');
+
+  const empty = !list.length
+    ? `<div class="cases-hub__empty empty-state"><p>No support cases yet</p><p class="cases-hub__empty-hint">Open a case and Hollow will coordinate with your insurer for you.</p></div>`
+    : '';
+
+  const listBlock = list.length
+    ? `<section class="cases-hub__section" aria-labelledby="casesOpenHeading">
+      <h3 class="doctor-pick__heading" id="casesOpenHeading">Your cases</h3>
+      <div class="case-pick-list">${caseCards}</div>
+    </section>`
+    : empty;
+
   return `<div class="page-header page-header--static">
     <button type="button" class="back-btn" data-action="go-back">${iconBack()}</button>
     <h1>Support cases</h1>
   </div>
-  <div class="section main--padded">
+  <div class="section main--padded cases-hub">
+    <div class="doctor-hero cases-hub__hero">
+      <p class="doctor-hero__eyebrow">Support</p>
+      <h2 class="doctor-hero__title">Track policy fixes and payment help</h2>
+      <p class="doctor-hero__lead">Each case has a timeline, messages with Hollow, and one clear next step—no chasing call centres.</p>
+    </div>
     ${renderPrototypeBanner('Prototype cases — no live ticketing.')}
-    <button type="button" class="btn btn--primary btn--block" data-action="open-case-create">Create new case</button>
-    ${empty}
-    ${list.map((c) => {
-      const pol = getPolicyById(c.policyId);
-      return `<button type="button" class="card card--interactive case-card" data-action="open-case-detail" data-case="${c.id}">
-        <div class="case-card__head"><span class="case-card__id">${c.id}</span><span class="status-chip ${statusChipClass(c.status)}">${c.status}</span></div>
-        <div class="case-card__title">${esc(c.subject)}</div>
-        <div class="policy-card__meta">${pol ? `${pol.insurer} · ${pol.name}` : ''} · ${c.created}</div>
-        <div class="case-card__next">Next: ${c.nextAction}</div>
-      </button>`;
-    }).join('')}
+    <button type="button" class="btn btn--primary btn--block cases-hub__create" data-action="open-case-create">Create new case</button>
+    ${listBlock}
   </div>`;
 }
 
@@ -3605,13 +3899,18 @@ function renderCaseDetail() {
       </li>`).join('')}</ul>
     <h2>Messages</h2>
     <div class="case-thread">${c.messages.map((m) => `
-      <div class="case-msg case-msg--${m.from}"><div class="case-msg__meta">${m.from === 'you' ? ('You') : 'Haven'} · ${esc(m.at)}</div><p>${esc(m.text)}</p></div>`).join('')}</div>
-    <div class="form-group">
-      <label for="caseReply">Reply</label>
-      <textarea id="caseReply" rows="2" placeholder="Your message…"></textarea>
-      <button type="button" class="btn btn--secondary btn--sm" data-action="case-send-reply" data-case="${c.id}">Send</button>
+      <div class="case-msg case-msg--${m.from}"><div class="case-msg__meta">${({ you: 'You', hollow: 'Hollow', insurer: 'Insurer' }[m.from] || m.from)} · ${esc(m.at)}</div><p>${esc(m.text)}</p></div>`).join('')}</div>
+    <div class="case-reply">
+      <label class="case-reply__label" for="caseReply">Reply</label>
+      <div class="case-reply__composer">
+        <textarea id="caseReply" class="case-reply__input" rows="3" placeholder="Type your message…" aria-describedby="caseReplyHint"></textarea>
+        <div class="case-reply__toolbar">
+          <span class="case-reply__hint" id="caseReplyHint">Add any details Hollow or your insurer need</span>
+          <button type="button" class="btn btn--primary case-reply__send" data-action="case-send-reply" data-case="${c.id}" disabled>Send</button>
+        </div>
+      </div>
     </div>
-    <label class="upload-zone upload-zone--sm">
+    <label class="upload-zone upload-zone--sm case-detail__upload">
       <input type="file" data-action="case-upload" data-case="${c.id}" hidden>
       <span>Upload document</span>
     </label>
@@ -3625,7 +3924,7 @@ function renderClaimDetail() {
   const c = getClaimById(claimId);
   if (!c) return `<div class="section main--padded"><p class="subtitle">Claim not found</p><button class="btn btn--secondary" data-action="set-view" data-view="claims">All claims</button></div>`;
   const pol = getPolicyById(c.policyId);
-  const ownerLabel = { you: 'You', haven: 'Haven', insurer: 'Insurer'};
+  const ownerLabel = { you: 'You', hollow: 'Hollow', insurer: 'Insurer'};
   return `<div class="page-header page-header--static">
     <button type="button" class="back-btn" data-action="set-view" data-view="claims">${iconBack()}</button>
     <h1>Claim Command</h1>
@@ -3730,9 +4029,9 @@ function renderHome() {
       const renewLabel = renewDays <= 0
         ? ('Renew today')
         : (`Renew · ${renewDays}d`);
-      heroTopAction = `<button type="button" class="home-hero__login home-hero__login--with-icon" data-action="renew-policy" data-policy="${soonest.id}">${icon('renew', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} ${renewLabel}</button>`;
+      heroTopAction = `<button type="button" class="home-hero__login home-hero__login--with-icon" data-action="renew-policy" data-policy="${soonest.id}">${icon('renew', ICON_SIZE.sm, 'hollow-icon hollow-icon--inline')} ${renewLabel}</button>`;
     } else {
-      heroTopAction = `<button type="button" class="home-hero__login home-hero__login--with-icon" data-action="set-view" data-view="policies">${icon('policy', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} My policies</button>`;
+      heroTopAction = `<button type="button" class="home-hero__login home-hero__login--with-icon" data-action="set-view" data-view="policies">${icon('policy', ICON_SIZE.sm, 'hollow-icon hollow-icon--inline')} My policies</button>`;
     }
   }
 
@@ -3758,7 +4057,7 @@ function renderHome() {
             </select>
             <button type="button" class="quote-card__btn" data-action="hero-quote">
               Get quotes
-              ${icon('forward', ICON_SIZE.md, 'haven-icon')}
+              ${icon('forward', ICON_SIZE.md, 'hollow-icon')}
             </button>
           </div>
           <div class="quote-card__popular">
@@ -3772,7 +4071,7 @@ function renderHome() {
           <button type="button" class="quote-card__ai-link" data-action="open-ai" data-ai-mode="finder">
             <span class="quote-card__ai-badge">AI</span>
             <span class="quote-card__ai-text"><strong>Not sure?</strong> Let AI find your plan</span>
-            ${icon('sparkles', ICON_SIZE.md, 'haven-icon quote-card__ai-sparkle')}
+            ${icon('sparkles', ICON_SIZE.md, 'hollow-icon quote-card__ai-sparkle')}
           </button>
         </div>
       </div>
@@ -3834,12 +4133,12 @@ function renderHome() {
 
         <div class="home-trending">
           <div class="section__head"><h2>Trending plans</h2></div>
-          <div class="trending-tabs">
-            <button type="button" class="trending-tab ${homeTrendingTab === 'health' ? 'active' : ''}" data-trending="health">Health</button>
-            <button type="button" class="trending-tab ${homeTrendingTab === 'motor' ? 'active' : ''}" data-trending="motor">Motor</button>
-            <button type="button" class="trending-tab ${homeTrendingTab === 'term' ? 'active' : ''}" data-trending="term">Term</button>
+          <div class="trending-tabs" role="tablist" aria-label="Trending plans by product">
+            <button type="button" role="tab" aria-selected="${homeTrendingTab === 'health'}" class="trending-tab ${homeTrendingTab === 'health' ? 'active' : ''}" data-trending="health">Health</button>
+            <button type="button" role="tab" aria-selected="${homeTrendingTab === 'motor'}" class="trending-tab ${homeTrendingTab === 'motor' ? 'active' : ''}" data-trending="motor">Motor</button>
+            <button type="button" role="tab" aria-selected="${homeTrendingTab === 'term'}" class="trending-tab ${homeTrendingTab === 'term' ? 'active' : ''}" data-trending="term">Term</button>
           </div>
-          <div class="trending-list">${trendingHtml}</div>
+          <div class="trending-list" role="tabpanel" aria-live="polite">${trendingHtml}</div>
         </div>
 
         ${renderInsuranceFooter()}
@@ -3887,11 +4186,11 @@ function renderAccount() {
       <div class="account-card__info">
         <div class="account-card__name">${esc(authUser.name)}</div>
         <div class="account-card__meta">${t('account.phone')} · ${esc(displayPhone)}</div>
-        ${email ? `<div class="account-card__meta account-card__meta--email">${icon('mail', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} ${esc(email)}</div>` : ''}
+        ${email ? `<div class="account-card__meta account-card__meta--email">${icon('mail', ICON_SIZE.sm, 'hollow-icon hollow-icon--inline')} ${esc(email)}</div>` : ''}
       </div>
     </div>
     <div class="account-contact">
-      <h2 class="account-contact__title">${icon('mail', ICON_SIZE.md, 'haven-icon haven-icon--inline')} ${t('account.email')}</h2>
+      <h2 class="account-contact__title">${icon('mail', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} ${t('account.email')}</h2>
       <p class="account-contact__hint">${t('account.emailHint')}</p>
       ${emailNotice}
       <label class="account-contact__label" for="accountEmail">${t('account.email')}</label>
@@ -3900,20 +4199,20 @@ function renderAccount() {
     </div>
     <div class="account-menu">
       <button type="button" class="account-menu__item" data-action="set-view" data-view="policies">
-        ${icon('policy', ICON_SIZE.lg, 'haven-icon')} <span>${t('account.policies')}</span>
-        ${icon('chevronRight', ICON_SIZE.md, 'haven-icon account-menu__chev')}
+        ${icon('policy', ICON_SIZE.lg, 'hollow-icon')} <span>${t('account.policies')}</span>
+        ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon account-menu__chev')}
       </button>
       <button type="button" class="account-menu__item" data-action="set-view" data-view="claims">
-        ${icon('claim', ICON_SIZE.lg, 'haven-icon')} <span>Claims</span>
-        ${icon('chevronRight', ICON_SIZE.md, 'haven-icon account-menu__chev')}
+        ${icon('claim', ICON_SIZE.lg, 'hollow-icon')} <span>Claims</span>
+        ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon account-menu__chev')}
       </button>
       <button type="button" class="account-menu__item" data-action="set-view" data-view="help">
-        ${icon('navHelp', ICON_SIZE.lg, 'haven-icon')} <span>Help</span>
-        ${icon('chevronRight', ICON_SIZE.md, 'haven-icon account-menu__chev')}
+        ${icon('navHelp', ICON_SIZE.lg, 'hollow-icon')} <span>Help</span>
+        ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon account-menu__chev')}
       </button>
     </div>
     <div class="account-settings">
-      <h2 class="account-settings__title">${icon('settings', ICON_SIZE.md, 'haven-icon haven-icon--inline')} ${t('account.settings')}</h2>
+      <h2 class="account-settings__title">${icon('settings', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} ${t('account.settings')}</h2>
       <div class="setting-row">
         <span class="setting-row__icon">${icon('notifications', ICON_SIZE.lg)}</span>
         <div class="setting-row__body">
@@ -3951,18 +4250,18 @@ function renderAccount() {
         <div class="setting-row__body">
           <div class="setting-row__label">${t('account.version')}</div>
         </div>
-        <span class="setting-row__value">Haven 1.0</span>
+        <span class="setting-row__value">Hollow 1.0</span>
       </div>
       <button type="button" class="setting-row setting-row--link" data-action="privacy-policy">
         <span class="setting-row__icon">${icon('lock', ICON_SIZE.lg)}</span>
         <div class="setting-row__body">
           <div class="setting-row__label">${t('account.privacy')}</div>
         </div>
-        ${icon('chevronRight', ICON_SIZE.md, 'haven-icon account-menu__chev')}
+        ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon account-menu__chev')}
       </button>
       ${accountPrivacyNotice ? `<p class="field-error" role="status">${esc(accountPrivacyNotice)}</p>` : ''}
     </div>
-    <button type="button" class="btn btn--logout btn--block" data-action="logout">${icon('logout', ICON_SIZE.md, 'haven-icon haven-icon--inline')} ${t('account.logout')}</button>
+    <button type="button" class="btn btn--logout btn--block" data-action="logout">${icon('logout', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} ${t('account.logout')}</button>
     <p class="account-logout-note">You will need OTP again to access quotes after logout.</p>
   </div>`;
 }
@@ -4136,7 +4435,7 @@ function renderClaims() {
     <button type="button" class="ai-claim-banner" data-action="open-ai" data-ai-mode="claim">
       <span class="ai-claim-banner__icon">${icon('sparkles', ICON_SIZE.lg)}</span>
       <span class="ai-claim-banner__text"><strong>AI Claim Assistant</strong><br>Steps, documents & tracking — guided walkthrough</span>
-      ${icon('chevronRight', ICON_SIZE.md, 'haven-icon')}
+      ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon')}
     </button>
     <div class="help-grid" style="margin-bottom:1rem">
       <button class="help-tile" data-action="open-ai" data-ai-mode="claim"><div class="help-tile__icon">${icon('claim', ICON_SIZE.lg)}</div><div class="help-tile__label">Claim guide</div></button>
@@ -4156,7 +4455,7 @@ function renderClaims() {
       <p class="policy-card__meta">${c.hospital} · ${c.date}</p>
       <div class="claim-mini-timeline" aria-hidden="true">${timeline.map((s) => `<span class="claim-mini-timeline__dot ${s.done ? 'done' : ''} ${s.active ? 'active' : ''}"></span>`).join('')}</div>
       <p class="claim-list-card__next">Stage: ${activeStep?.label || '—'} · Next: ${c.nextAction}</p>
-      <span class="link-card__cta">View details ${icon('chevronRight', ICON_SIZE.sm, 'haven-icon')}</span>
+      <span class="link-card__cta">View details ${icon('chevronRight', ICON_SIZE.sm, 'hollow-icon')}</span>
     </button>`;
   }).join('') : `<div class="empty-state card">
       <p>No active claims</p>
@@ -4184,7 +4483,7 @@ function renderHelp() {
             <span class="motor-help-option__title">Cashless garages</span>
             <span class="motor-help-option__desc">Find network workshops near you</span>
           </span>
-          ${icon('chevronRight', ICON_SIZE.md, 'haven-icon motor-help-option__chev')}
+          ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon motor-help-option__chev')}
         </button>
         <button type="button" class="motor-help-option" data-action="set-view" data-view="help" data-help="roadside">
           <span class="motor-help-option__icon motor-help-option__icon--roadside" aria-hidden="true">${icon('phone', ICON_SIZE.lg)}</span>
@@ -4192,7 +4491,7 @@ function renderHelp() {
             <span class="motor-help-option__title">Roadside help</span>
             <span class="motor-help-option__desc">Breakdown, towing &amp; on-road support</span>
           </span>
-          ${icon('chevronRight', ICON_SIZE.md, 'haven-icon motor-help-option__chev')}
+          ${icon('chevronRight', ICON_SIZE.md, 'hollow-icon motor-help-option__chev')}
         </button>
       </div>
     </div>`;
@@ -4211,7 +4510,7 @@ function renderHelp() {
         <li>Fuel delivery (metro limits apply)</li>
         <li>On-spot minor repairs where possible</li>
       </ul>
-      <a class="btn btn--primary btn--block roadside-help__call" href="tel:${tel}">${icon('phone', ICON_SIZE.md, 'haven-icon haven-icon--inline')} Call ${PHONE_NUMBER}</a>
+      <a class="btn btn--primary btn--block roadside-help__call" href="tel:${tel}">${icon('phone', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} Call ${PHONE_NUMBER}</a>
       <p class="quote-form__hint">Keep your policy number and location handy. Non-network repairs may be reimbursement only.</p>
     </div>`;
   }
@@ -4240,7 +4539,7 @@ function renderHelp() {
 
   return `<div class="section main--padded" style="padding-top:1rem">
     <h1>Help centre</h1>
-    <button type="button" class="ai-search" data-action="open-ai">${icon('sparkles', ICON_SIZE.md, 'haven-icon ai-search__icon')}
+    <button type="button" class="ai-search" data-action="open-ai">${icon('sparkles', ICON_SIZE.md, 'hollow-icon ai-search__icon')}
       <span class="ai-search__text">${t('ai.searchPrompt')}</span><span class="ai-search__badge">AI</span></button>
     <div class="help-grid" style="margin-bottom:1rem">
       <button class="help-tile" data-action="open-ai" data-ai-mode="finder"><div class="help-tile__icon">${icon('search', ICON_SIZE.lg)}</div><div class="help-tile__label">Find a plan</div></button>
@@ -4303,7 +4602,7 @@ function renderCompareView() {
         <tr><td>Action</td>${plans.map((p) => `<td><button class="btn btn--primary btn--sm" data-action="buy-product" data-plan-id="${p.id}" data-product="${product}">Buy</button></td>`).join('')}</tr>
       </tbody></table></div>
       <button class="btn btn--secondary btn--block" style="margin-top:1rem" data-action="open-ai" data-ai-mode="compare">
-        ${icon('sparkles', ICON_SIZE.sm, 'haven-icon haven-icon--inline')} Explain differences with AI
+        ${icon('sparkles', ICON_SIZE.sm, 'hollow-icon hollow-icon--inline')} Explain differences with AI
       </button>
     </div>`;
 }
@@ -4609,7 +4908,7 @@ function renderHealthWizard(step) {
     <div class="wizard-progress">${progress}</div>
     <div class="wizard-body quote-form">
       ${renderRenewalBanner()}
-      <div class="quote-step-tip">${icon('family', ICON_SIZE.md, 'haven-icon haven-icon--inline')} Age & pincode help us show accurate premiums</div>
+      <div class="quote-step-tip">${icon('family', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} Age & pincode help us show accurate premiums</div>
       ${formErr}
       ${renderHealthPlanTypeChooser(h.planType)}
       <h2 class="quote-form__h2">${individual
@@ -5082,7 +5381,7 @@ function resetCheckoutSession(product) {
 
 function generatePolicyNumber(product) {
   const prefix = { health: 'HL', motor: 'MTR', term: 'TRM', home: 'HOM' }[product] || 'POL';
-  return `HAVEN/${prefix}/${new Date().getFullYear()}/${Math.floor(100000 + Math.random() * 900000)}`;
+  return `HOLLOW/${prefix}/${new Date().getFullYear()}/${Math.floor(100000 + Math.random() * 900000)}`;
 }
 
 function parseCheckoutDate(iso) {
@@ -5223,7 +5522,7 @@ function renderCheckoutDeclaration() {
     ${renderCheckoutDeclarationError()}
     <label class="checkout-declaration__label">
       <input type="checkbox" id="checkoutDeclaration" ${checked}>
-      <span>I confirm the details are correct and agree to the insurer terms and Haven privacy policy.</span>
+      <span>I confirm the details are correct and agree to the insurer terms and Hollow privacy policy.</span>
     </label>
   </div>`;
 }
@@ -5427,7 +5726,7 @@ function renderOffersSection(total) {
 
   return `
     <div class="offers-section">
-      <div class="offers-section__title">${icon('award', ICON_SIZE.md, 'haven-icon haven-icon--inline')} Coupons & offers</div>
+      <div class="offers-section__title">${icon('award', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} Coupons & offers</div>
 
       <div class="coupon-box">
         <div class="coupon-input-row">
@@ -5661,7 +5960,7 @@ function renderSignup(step) {
         <input id="signupPhone" type="tel" inputmode="numeric" autocomplete="tel-national" value="${esc(signupDraft.phone || '')}" placeholder="10-digit mobile number" aria-label="${t('signup.phoneLabel')}">
       </div>
       <button type="button" class="signup-wa" data-action="signup-send-otp-wa">
-        ${icon('chat', ICON_SIZE.md, 'haven-icon haven-icon--inline')} ${t('signup.continueWhatsapp')}
+        ${icon('chat', ICON_SIZE.md, 'hollow-icon hollow-icon--inline')} ${t('signup.continueWhatsapp')}
       </button>
       <p class="signup-legal">${t('signup.termsLine')}</p>
       ${signupTrustStrip()}`;
@@ -5712,9 +6011,9 @@ function renderSignup(step) {
       <label class="signup-field-label" for="signupEmail">${t('signup.emailLabel')}</label>
       <input class="signup-input" id="signupEmail" type="email" inputmode="email" autocomplete="email" value="${esc(signupDraft.email || '')}" placeholder="${t('signup.emailPlaceholder')}">
       <div class="signup-perks">
-        <div class="signup-perk">${icon('compare', ICON_SIZE.md, 'haven-icon')} ${t('signup.trust1')}</div>
-        <div class="signup-perk">${icon('folder', ICON_SIZE.md, 'haven-icon')} All policies in one place</div>
-        <div class="signup-perk">${icon('claim', ICON_SIZE.md, 'haven-icon')} Claims assistance</div>
+        <div class="signup-perk">${icon('compare', ICON_SIZE.md, 'hollow-icon')} ${t('signup.trust1')}</div>
+        <div class="signup-perk">${icon('folder', ICON_SIZE.md, 'hollow-icon')} All policies in one place</div>
+        <div class="signup-perk">${icon('claim', ICON_SIZE.md, 'hollow-icon')} Claims assistance</div>
       </div>`;
     const footer = `<button type="button" class="btn btn--primary btn--block btn--lg" data-action="signup-profile">${t('signup.profileCta')}</button>`;
     return signupShell('wizard-back', t('signup.profileTitle'), body, footer);
@@ -5766,7 +6065,7 @@ function renderSuccess() {
         <div class="digital-card__label">Policy number</div>
         <div class="digital-card__value">${policyNo}</div>
         <div class="digital-card__label" style="margin-top:0.75rem">Support</div>
-        <div class="digital-card__value">Haven · ${PHONE_NUMBER}</div>
+        <div class="digital-card__value">Hollow · ${PHONE_NUMBER}</div>
       </div>
       <div class="policy-success__actions">
         <button type="button" class="btn btn--primary btn--block" data-action="view-issued-policy" data-product="${product}">${successViewPolicyLabel(product)}</button>
@@ -5886,7 +6185,7 @@ function render(options = {}) {
 
   main.innerHTML = normalizePageLayout(html);
   applyI18n();
-  initPageHavenSelects();
+  initPageHollowSelects();
   bindEvents();
   updateCompareBar();
   if (preserveScroll) restoreMainScroll(scrollSnapshot);
@@ -6446,7 +6745,13 @@ function bindEvents() {
   });
 
   document.querySelectorAll('[data-trending]').forEach(el => {
-    el.addEventListener('click', () => { homeTrendingTab = el.dataset.trending; render(); });
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const next = el.dataset.trending;
+      if (!next || next === homeTrendingTab) return;
+      homeTrendingTab = next;
+      render({ preserveScroll: true });
+    });
   });
 
   document.querySelectorAll('[data-explain]').forEach(el => {
@@ -6621,12 +6926,27 @@ function bindEvents() {
     caseCreateDraft.description = document.getElementById('caseDescription')?.value || '';
     createSupportCase();
   });
+  const caseReplyInput = document.getElementById('caseReply');
+  const caseReplySend = document.querySelector('[data-action="case-send-reply"]');
+  const syncCaseReplySend = () => {
+    if (caseReplySend && caseReplyInput) {
+      caseReplySend.disabled = !caseReplyInput.value.trim();
+    }
+  };
+  caseReplyInput?.addEventListener('input', syncCaseReplySend);
+  caseReplyInput?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
+    e.preventDefault();
+    if (caseReplySend && !caseReplySend.disabled) caseReplySend.click();
+  });
+  syncCaseReplySend();
   document.querySelectorAll('[data-action="case-send-reply"]').forEach((el) => {
     el.addEventListener('click', () => {
       const text = document.getElementById('caseReply')?.value || '';
       addCaseMessage(el.dataset.case, text);
       const ta = document.getElementById('caseReply');
       if (ta) ta.value = '';
+      syncCaseReplySend();
     });
   });
   document.querySelectorAll('input[data-action="case-upload"]').forEach((input) => {
@@ -7525,14 +7845,14 @@ function isExpertCallbackNowOpen(date = new Date()) {
   return minutes >= 9 * 60 && minutes < 20 * 60;
 }
 
-const havenSelectRegistry = new WeakMap();
+const hollowSelectRegistry = new WeakMap();
 
-function syncHavenSelectUi(select) {
-  const state = havenSelectRegistry.get(select);
+function syncHollowSelectUi(select) {
+  const state = hollowSelectRegistry.get(select);
   if (!state) return;
   const opt = select.options[select.selectedIndex];
   if (state.valueEl) state.valueEl.textContent = opt?.text || '';
-  state.list.querySelectorAll('.haven-select__option').forEach((li) => {
+  state.list.querySelectorAll('.hollow-select__option').forEach((li) => {
     const val = li.dataset.value;
     const optEl = select.querySelector(`option[value="${CSS.escape(val)}"]`);
     li.setAttribute('aria-selected', val === select.value ? 'true' : 'false');
@@ -7540,17 +7860,17 @@ function syncHavenSelectUi(select) {
   });
 }
 
-function refreshHavenSelectOptions(select) {
-  const state = havenSelectRegistry.get(select);
+function refreshHollowSelectOptions(select) {
+  const state = hollowSelectRegistry.get(select);
   if (!state) return;
   [...select.options].forEach((opt, i) => {
     const li = state.list.children[i];
     if (li) li.textContent = opt.text;
   });
-  syncHavenSelectUi(select);
+  syncHollowSelectUi(select);
 }
 
-function closeHavenSelect(state, focusTrigger = false) {
+function closeHollowSelect(state, focusTrigger = false) {
   if (!state || !state.wrap.classList.contains('is-open')) return;
   state.wrap.classList.remove('is-open');
   state.trigger.setAttribute('aria-expanded', 'false');
@@ -7558,22 +7878,22 @@ function closeHavenSelect(state, focusTrigger = false) {
   if (focusTrigger) state.trigger.focus();
 }
 
-function closeAllHavenSelects() {
-  document.querySelectorAll('.haven-select.is-open').forEach((wrap) => {
+function closeAllHollowSelects() {
+  document.querySelectorAll('.hollow-select.is-open').forEach((wrap) => {
     const select = wrap.querySelector('select');
-    if (select) closeHavenSelect(havenSelectRegistry.get(select));
+    if (select) closeHollowSelect(hollowSelectRegistry.get(select));
   });
 }
 
-function enhanceHavenSelect(select) {
-  if (!select || select.dataset.havenSelectEnhanced) return;
-  select.dataset.havenSelectEnhanced = '1';
-  select.classList.add('haven-select__native');
+function enhanceHollowSelect(select) {
+  if (!select || select.dataset.hollowSelectEnhanced) return;
+  select.dataset.hollowSelectEnhanced = '1';
+  select.classList.add('hollow-select__native');
   select.tabIndex = -1;
   select.setAttribute('aria-hidden', 'true');
 
   const wrap = document.createElement('div');
-  wrap.className = 'haven-select';
+  wrap.className = 'hollow-select';
   select.parentNode.insertBefore(wrap, select);
   wrap.appendChild(select);
 
@@ -7582,25 +7902,25 @@ function enhanceHavenSelect(select) {
 
   const trigger = document.createElement('button');
   trigger.type = 'button';
-  trigger.className = 'haven-select__trigger';
+  trigger.className = 'hollow-select__trigger';
   trigger.id = `${select.id}Trigger`;
   if (lbl) trigger.setAttribute('aria-labelledby', `${lbl.id} ${trigger.id}`);
   trigger.setAttribute('aria-haspopup', 'listbox');
   trigger.setAttribute('aria-expanded', 'false');
 
   const valueEl = document.createElement('span');
-  valueEl.className = 'haven-select__value';
+  valueEl.className = 'hollow-select__value';
   const chev = document.createElement('span');
-  chev.className = 'haven-select__chevron';
+  chev.className = 'hollow-select__chevron';
   chev.setAttribute('aria-hidden', 'true');
   chev.innerHTML =
     typeof icon === 'function'
-      ? icon('chevronDown', ICON_SIZE.lg, 'haven-icon haven-icon--select-chevron')
+      ? icon('chevronDown', ICON_SIZE.lg, 'hollow-icon hollow-icon--select-chevron')
       : '▾';
   trigger.append(valueEl, chev);
 
   const list = document.createElement('ul');
-  list.className = 'haven-select__menu';
+  list.className = 'hollow-select__menu';
   list.setAttribute('role', 'listbox');
   list.id = `${select.id}List`;
   list.hidden = true;
@@ -7608,7 +7928,7 @@ function enhanceHavenSelect(select) {
 
   [...select.options].forEach((opt) => {
     const li = document.createElement('li');
-    li.className = 'haven-select__option';
+    li.className = 'hollow-select__option';
     li.setAttribute('role', 'option');
     li.dataset.value = opt.value;
     li.textContent = opt.text;
@@ -7618,8 +7938,8 @@ function enhanceHavenSelect(select) {
       if (liveOpt?.disabled) return;
       select.value = opt.value;
       select.dispatchEvent(new Event('change', { bubbles: true }));
-      syncHavenSelectUi(select);
-      closeHavenSelect(havenSelectRegistry.get(select));
+      syncHollowSelectUi(select);
+      closeHollowSelect(hollowSelectRegistry.get(select));
       trigger.focus();
     });
     list.appendChild(li);
@@ -7627,12 +7947,12 @@ function enhanceHavenSelect(select) {
 
   wrap.append(trigger, list);
   const state = { wrap, trigger, list, valueEl, select };
-  havenSelectRegistry.set(select, state);
+  hollowSelectRegistry.set(select, state);
 
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
     const willOpen = !wrap.classList.contains('is-open');
-    closeAllHavenSelects();
+    closeAllHollowSelects();
     if (willOpen) {
       wrap.classList.add('is-open');
       list.hidden = false;
@@ -7643,22 +7963,25 @@ function enhanceHavenSelect(select) {
   });
 
   trigger.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeHavenSelect(state, true);
+    if (e.key === 'Escape') closeHollowSelect(state, true);
   });
 
-  syncHavenSelectUi(select);
+  syncHollowSelectUi(select);
 }
 
-function initHavenSelects() {
-  document.querySelectorAll('#expertForm select').forEach(enhanceHavenSelect);
+function initHollowSelects() {
+  document.querySelectorAll('#expertForm select').forEach(enhanceHollowSelect);
 }
 
-function initPageHavenSelects() {
+function initPageHollowSelects() {
   const hero = document.getElementById('heroProduct');
   if (hero) {
     hero.value = activeProduct || hero.value || 'health';
-    enhanceHavenSelect(hero);
+    enhanceHollowSelect(hero);
   }
+  document.querySelectorAll('.form-group select').forEach((sel) => {
+    if (!sel.dataset.hollowSelectEnhanced) enhanceHollowSelect(sel);
+  });
 }
 
 function syncExpertNowOption() {
@@ -7668,7 +7991,7 @@ function syncExpertNowOption() {
   const open = isExpertCallbackNowOpen();
   if (nowOpt) nowOpt.disabled = !open;
   if (!open && select.value === 'now') select.value = 'morning';
-  syncHavenSelectUi(select);
+  syncHollowSelectUi(select);
 }
 
 function expertSlotLabel(value) {
@@ -7704,7 +8027,7 @@ function resetExpertModalUi() {
   const expertTime = document.getElementById('expertTime');
   if (expertTime) expertTime.value = 'now';
   syncExpertNowOption();
-  if (expertProduct) syncHavenSelectUi(expertProduct);
+  if (expertProduct) syncHollowSelectUi(expertProduct);
   setExpertFieldError('expertName', 'expertNameError', '');
   setExpertFieldError('expertPhone', 'expertPhoneError', '');
   setExpertFieldError('expertConsent', 'expertConsentError', '');
@@ -7782,7 +8105,7 @@ function getExpertFocusables() {
   if (!modal?.classList.contains('open')) return [];
   const content = modal.querySelector('.modal__content');
   if (!content) return [];
-  return [...content.querySelectorAll('button, [href], input:not(.haven-select__native), textarea, [tabindex]:not([tabindex="-1"])')]
+  return [...content.querySelectorAll('button, [href], input:not(.hollow-select__native), textarea, [tabindex]:not([tabindex="-1"])')]
     .filter((el) => !el.disabled && !el.closest('[hidden]') && el.offsetParent !== null);
 }
 
@@ -7852,7 +8175,7 @@ function syncCheckoutFocusTrap() {
 }
 
 function openExpertModal(fromHistory = false, triggerEl = null) {
-  closeAllHavenSelects();
+  closeAllHollowSelects();
   if (!fromHistory) {
     resetExpertModalUi();
     if (triggerEl) expertLastTrigger = triggerEl;
@@ -7872,7 +8195,7 @@ function openExpertModal(fromHistory = false, triggerEl = null) {
 }
 
 function closeExpertModal(fromHistory = false) {
-  closeAllHavenSelects();
+  closeAllHollowSelects();
   const modal = document.getElementById('expertModal');
   modal.classList.remove('open');
   modal.setAttribute('aria-hidden', 'true');
@@ -7948,10 +8271,10 @@ document.getElementById('authBtn')?.addEventListener('click', () => {
 document.getElementById('expertClose')?.addEventListener('click', goBack);
 document.getElementById('expertOverlay')?.addEventListener('click', goBack);
 document.getElementById('expertForm')?.addEventListener('submit', submitExpertForm);
-initHavenSelects();
+initHollowSelects();
 document.addEventListener('click', (e) => {
-  if (e.target.closest('.haven-select')) return;
-  closeAllHavenSelects();
+  if (e.target.closest('.hollow-select')) return;
+  closeAllHollowSelects();
 });
 document.getElementById('expertSuccessClose')?.addEventListener('click', closeExpertFromSuccess);
 document.getElementById('compareBtn').addEventListener('click', () => {
@@ -7959,8 +8282,8 @@ document.getElementById('compareBtn').addEventListener('click', () => {
 });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && document.querySelector('.haven-select.is-open')) {
-    closeAllHavenSelects();
+  if (e.key === 'Escape' && document.querySelector('.hollow-select.is-open')) {
+    closeAllHollowSelects();
     return;
   }
   if (e.key !== 'Escape') return;
@@ -7975,7 +8298,7 @@ window.addEventListener('popstate', (e) => {
   suppressHistory = false;
 });
 
-const SPLASH_SEEN_KEY = 'haven_splash_seen';
+const SPLASH_SEEN_KEY = 'hollow_splash_seen';
 const SPLASH_MAX_MS = 750;
 
 function dismissSplash(splash, { animate = true } = {}) {
@@ -8048,3 +8371,13 @@ syncShellChrome();
 render();
 if (designCaptureOverlay === 'expert') openExpertModal(true);
 else if (designCaptureOverlay === 'ai') openAIPanel('', null, null, true);
+else if (designCaptureOverlay === 'ai-claim') openAIPanel('', 'claim', null, true);
+if (designCaptureApplied) {
+  prepareDesignCaptureForFigma();
+  if (location.hash.includes('figmacapture=')) {
+    requestAnimationFrame(() => {
+      prepareDesignCaptureForFigma();
+      window.setTimeout(prepareDesignCaptureForFigma, 1500);
+    });
+  }
+}

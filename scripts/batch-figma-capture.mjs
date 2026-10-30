@@ -16,7 +16,7 @@ const PROGRESS_PATH = join(__dirname, 'figma-capture-progress.json');
 const CAPTURE_SELECTOR = config.captureSelector || '#app';
 const CAPTURE_WIDTH = config.viewport?.width ?? 390;
 
-export function buildCaptureUrl(screen, captureId, delayMs = 2500) {
+export function buildCaptureUrl(screen, captureId, delayMs = 3500) {
   const endpoint = encodeURIComponent(
     `https://mcp.figma.com/mcp/capture/${captureId}/submit?bindVariables=true`,
   );

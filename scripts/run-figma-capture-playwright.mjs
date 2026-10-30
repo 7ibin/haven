@@ -1,5 +1,5 @@
 /**
- * Opens Haven capture URLs in headless Chromium (390×844).
+ * Opens Hollow capture URLs in headless Chromium (390×844).
  * Pair with Figma MCP: generate captureId per screen, then poll generate_figma_design until completed.
  *
  * Usage: node scripts/run-figma-capture-playwright.mjs <screen> <captureId>
